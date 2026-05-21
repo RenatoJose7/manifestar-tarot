@@ -1,0 +1,175 @@
+
+/* Header */
+
+.header {
+  width: 100%;
+  height: 70px;
+  background: var(--preto);
+  display: grid;
+  grid-template-columns: 360px 1fr 270px;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid rgba(174, 135, 70, 0.20);
+  position: relative;
+  z-index: 20;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+.textoLogo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "Times New Roman", serif;
+}
+.textoLogo h1{
+  margin-bottom: -5px;
+  font-size: 20px;
+  letter-spacing: 2px;
+  font-weight: 400;
+  color: var(--branco);
+}
+.textoLogo h2{
+  font-size: 16px;
+  letter-spacing: 8px;
+  color: var(--dourado);
+  font-weight: 400;
+}
+
+.logo-area img {
+  width: 50px;
+  margin: 0px 20px;
+  height: auto;
+  display: block;
+}
+
+.menu {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 48px;
+  padding-right: 58px;
+}
+
+.menu a {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--branco);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.header-btn {
+  width: 200px;
+  height: 40px;
+  background: var(--dourado);
+  color: var(--branco);
+  border: none;
+  font-size: 14px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.25s ease;
+}
+
+.header-btn:hover {
+  background: #98743a;
+}
+
+/* Responsividade Header */
+
+
+@media (max-width: 1024px) {
+  .header {
+    grid-template-columns: 280px 1fr 200px;
+    padding: 0 16px;
+  }
+
+  .menu {
+    gap: 24px;
+    padding-right: 24px;
+  }
+
+  .header-btn {
+    width: 170px;
+    font-size: 13px;
+  }
+
+  .textoLogo h1 {
+    font-size: 18px;
+  }
+
+  .textoLogo h2 {
+    font-size: 14px;
+    letter-spacing: 6px;
+  }
+
+  .logo-area img {
+    width: 44px;
+    margin: 0 14px;
+  }
+}
+
+/* Celulares */
+@media (max-width: 768px) {
+  .header {
+    height: auto;
+    min-height: 70px;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .logo-area {
+    justify-content: center;
+  }
+
+  .menu {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+    padding-right: 0;
+  }
+
+  .menu a {
+    font-size: 13px;
+  }
+
+  .header-btn {
+    width: 100%;
+    max-width: 260px;
+    justify-self: center;
+  }
+}
+
+/* Celulares pequenos */
+@media (max-width: 480px) {
+  .logo-area img {
+    width: 38px;
+    margin: 0 10px;
+  }
+
+  .textoLogo h1 {
+    font-size: 16px;
+    letter-spacing: 1.5px;
+  }
+
+  .textoLogo h2 {
+    font-size: 12px;
+    letter-spacing: 4px;
+  }
+
+  .menu {
+    gap: 12px 18px;
+  }
+
+  .menu a {
+    font-size: 12px;
+  }
+}

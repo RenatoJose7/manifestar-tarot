@@ -1,0 +1,263 @@
+.rodape {
+  width: 100%;
+  background: var(--preto);
+  border-top: 1px solid var(--dourado);
+  padding: 52px 20px;
+}
+
+.containerRodape {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.35fr 1.35fr 1.75fr 1.25fr;
+  align-items: center;
+}
+
+.marcaRodape,
+.secaoRodape,
+.intuicaoRodape {
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.marcaRodape,
+.secaoRodape {
+  border-right: 1px solid var(--linha);
+}
+
+.secaoRodape {
+  padding: 0 40px;
+}
+
+.conteudoRodape {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.secaoRodape h3 {
+  margin: 0 0 22px;
+  color: var(--dourado);
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: left;
+}
+
+.linksRodape {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+}
+
+.rodape a {
+  display: block;
+  color: var(--branco);
+  text-decoration: none;
+  font-size: 15px;
+  line-height: 1.85;
+  transition: color 0.25s ease;
+}
+
+.rodape a:hover {
+  color: var(--dourado);
+}
+
+.contatoRodape .conteudoRodape {
+  min-width: 230px;
+}
+
+.contatoRodape a {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.contatoRodape a:last-child {
+  margin-bottom: 0;
+}
+
+.contatoRodape i {
+  width: 20px;
+  font-size: 20px;
+  color: var(--branco);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.intuicaoRodape {
+  align-items: center;
+  text-align: center;
+  padding-left: 34px;
+}
+
+.intuicaoRodape p {
+  margin: 0 0 16px;
+  color: var(--branco);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.linhaRodape {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 150px;
+  color: var(--dourado);
+}
+
+.linhaRodape span {
+  flex: 1;
+  height: 1px;
+  background: var(--dourado);
+}
+
+.linhaRodape strong {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.areaLogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 32px;
+}
+
+.areaLogo img {
+  width: 50px;
+  height: auto;
+  display: block;
+  margin: 0 20px;
+}
+
+.textoLogo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "Times New Roman", serif;
+}
+
+.textoLogo h1 {
+  margin-bottom: -5px;
+  font-size: 20px;
+  letter-spacing: 2px;
+  font-weight: 400;
+  color: var(--branco);
+}
+
+.textoLogo h2 {
+  font-size: 16px;
+  letter-spacing: 8px;
+  color: var(--dourado);
+  font-weight: 400;
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+  .containerRodape {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px 0;
+  }
+
+  .marcaRodape,
+  .secaoRodape,
+  .intuicaoRodape {
+    min-height: auto;
+    padding: 0 28px;
+  }
+
+  .contatoRodape {
+    border-right: none;
+  }
+
+  .contatoRodape .conteudoRodape {
+    min-width: auto;
+  }
+
+  .intuicaoRodape {
+    grid-column: 1 / -1;
+    border-top: 1px solid rgba(174, 135, 70, 0.45);
+    padding-top: 32px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .rodape {
+    padding: 40px 20px;
+  }
+
+  .containerRodape {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 28px;
+  }
+
+  .marcaRodape,
+  .secaoRodape,
+  .intuicaoRodape {
+    border-right: none;
+    padding: 0;
+  }
+
+  .marcaRodape,
+  .secaoRodape {
+    border-bottom: 1px solid rgba(174, 135, 70, 0.45);
+    padding-bottom: 26px;
+  }
+
+  .conteudoRodape {
+    width: 100%;
+    margin: 0;
+  }
+
+  .secaoRodape h3 {
+    text-align: center;
+    margin-bottom: 18px;
+  }
+
+  .linksRodape {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .rodape a {
+    font-size: 14px;
+    line-height: 1.9;
+  }
+
+  .contatoRodape a {
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .areaLogo {
+    margin: 0;
+  }
+
+  .areaLogo img {
+    width: 44px;
+    margin: 0 14px;
+  }
+
+  .textoLogo h1 {
+    font-size: 18px;
+  }
+
+  .textoLogo h2 {
+    font-size: 14px;
+    letter-spacing: 6px;
+  }
+
+  .intuicaoRodape {
+    padding-top: 0;
+  }
+}

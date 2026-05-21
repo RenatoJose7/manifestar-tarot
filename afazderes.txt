@@ -1,0 +1,83 @@
+1 ETAPA — FRONT VISUAL
+
+- baixar todas as imagens    - ok
+- organizar pasta assets     - ok
+- criar global.css     - ok
+- criar header reutilizável     - ok
+- criar footer reutilizável     - ok
+- revisar cards da tela inicial     - ok
+- começar tela de leituras
+- criar leitura.html?id=
+- criar rotas dos cards
+- montar css dos cards de leituras
+- montar tela de consentimento
+- montar tela de banhos
+- criar banho.html?id=
+- criar tela de compra de cada banho
+- criar tela de checkout visual
+- fazer responsividade básica
+
+(visual sem muita lógica)
+
+
+
+2 ETAPA — BACKEND + BANCO
+
+- montar banco de dados
+- criar tabela de usuários
+- criar tabela de leituras
+- criar tabela de banhos/produtos
+- criar tabela de pedidos
+- criar tabela de agendamentos
+- criar login e cadastro
+- criar autenticação
+- criar rotas GET
+- criar rotas POST
+- criar rotas PUT
+- criar rotas DELETE
+- conectar front com backend
+- cadastrar leituras no banco
+- cadastrar banhos no banco
+- criar questionário de leituras
+- criar sistema de agendamento
+- criar sistema de pedidos
+- criar sistema de relatório de cada pessoa
+
+(lógica completa)
+
+
+
+2.5 ETAPA — PAINEL ADMIN
+
+- criar login admin
+- criar dashboard
+- gerenciar leituras
+- gerenciar banhos/produtos
+- gerenciar pedidos
+- gerenciar agendamentos
+- gerenciar usuários
+- gerenciar horários disponíveis
+
+
+
+2.8 ETAPA — APIs
+
+- integrar Mercado Pago
+- integrar API Correios/Sedex
+- integrar API de e-mail
+- integrar WhatsApp (opcional)
+
+
+
+3 ETAPA — FINALIZAÇÃO
+
+- testar tudo
+- revisar responsividade
+- revisar segurança básica
+- comprar domínio
+- configurar hospedagem
+- colocar no ar
+- configurar analytics
+- configurar Google Search Console
+- revisar SEO básico
+- entregar

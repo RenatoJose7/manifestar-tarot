@@ -1,0 +1,27 @@
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+  @font-face {
+    font-family: "Tempting";
+    src: url("../assets/fonts/Tempting\ -\ PERSONAL\ USE\ ONLY.ttf") format("truetype");
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --dourado: #AE8746;
+    --preto: #1f1f1f;
+    --branco: #ffffff;
+    --linha: rgba(174, 135, 70, 0.75);
+  }
+
+  body {
+    font-family: "Poppins", sans-serif;
+    background: var(--branco);
+    color: var(--preto);
+    overflow-x: hidden;
+  }
+

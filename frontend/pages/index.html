@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manifestar Tarot</title>
+  <link rel="stylesheet" href="../css/home.css">
+  <link rel="stylesheet" href="../css/global.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo-area">
+      <img src="../assets/img/logoPreto.png" alt="Manifestar Tarot">
+      <div class="textoLogo1">
+      <h1>MANIFESTAR</h1>
+      <h2>TAROT</h2>
+      </div>
+    </div>
+
+    <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-principal">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="menu" id="menu-principal">
+      <a href="inicio.html">Início</a>
+      <a href="#sobre">Sobre mim</a>
+      <a href="#leituras">Leituras</a>
+      <a href="banhos.html">Banhos</a>
+      <a href="contatos.html">Contatos</a>
+    </nav>
+
+    <button class="header-btn">Ver produtos</button>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Manifestar</h1>
+        <h2>Tarot</h2>
+        <p class="hero-name">Paola Airan</p>
+
+        <div class="hero-divider"></div>
+
+        <p class="hero-text">
+          Leituras intuitivas para<br>
+          clareza, direção e conexão espiritual
+        </p>
+
+        <button class="hero-btn">Agendar leitura</button>
+      </div>
+    </section>
+
+    <div class="section-line"></div>
+
+    <section class="sobre" id="sobre">
+      <p class="section-label">Sobre mim</p>
+
+      <h2>Intuição. Verdade.<br>Transformação.</h2>
+
+      <p>
+        Sou taróloga e canal intuitiva.<br>
+        Meu propósito é te ajudar a enxergar com clareza<br>
+        os caminhos que se abrem diante de você.<br>
+        Através do Tarot, trago mensagens profundas,<br>
+        diretas e amorosas para iluminar suas decisões,<br>
+        relacionamentos, propósito e jornada espiritual.
+      </p>
+
+      <strong>É sobre você. É sobre o que é real. É sobre despertar.</strong>
+
+      <button class="sobre-btn">Conhecer mais</button>
+    </section>
+
+    <div class="section-line"></div>
+
+    <section class="leituras" id="leituras">
+      <h2 class="leituras-title">Leituras de Tarot</h2>
+
+      <div class="cards-leituras">
+
+        <div class="card-leitura">
+          <img src="../assets/icones/iconeCoração.png" alt="Leitura amorosa">
+          <h3>vênus individual</h3>
+          <h4>Campo Amoroso</h4>
+          <p>Clareza sobre sentimentos, conexões e decisões no amor. </p>
+          <span>R$ 177</span>
+          <button>Agendar</button>
+        </div>
+
+        <div class="card-leitura">
+          <img src="../assets/icones/iconeEstrela.png" alt="Leitura completa">
+          <h3>vênus casal</h3>
+          <h4>Campo Amoroso</h4>
+          <p>Clareza sobre sentimentos, conexões e decisões do casal.</p>
+          <span>R$ 222</span>
+          <button>Agendar</button>
+        </div>
+
+        <div class="card-leitura">
+          <img src="../assets/icones/IconeOlho.png" alt="Leitura direcionada">
+          <h3>mercúrio</h3>
+          <h4>Campo profissional</h4>
+          <p>Respostas objetivas para uma pergunta específica.</p>
+          <span>R$ 111</span>
+          <button>Agendar</button>
+        </div>
+
+        <div class="card-leitura">
+          <img src="../assets/icones/iconePlaneta.png" alt="Leitura anual">
+          <h3>sol</h3>
+          <h4>Autoconhecimento</h4>
+          <p>Panorama do seu ano pessoal e as energias que regem você.</p>
+          <span>R$ 255</span>
+          <button>Agendar</button>
+        </div>
+
+      </div>
+
+      <button class="leituras-btn">Ver todas as leituras</button>
+    </section>
+
+    <div class="section-line"></div>
+
+<section class="banhos-section">
+  <div class="banhos-img">
+    <img src="../assets/img/imgBanho.png" alt="Banhos energéticos">
+  </div>
+
+  <div class="banhos-content">
+    <div class="banhos-texto">
+      <h2 class="banhos-title">
+        <span class="banhos-title-star">✦</span>
+        <span class="banhos-title-text">Banhos<br>Energéticos</span>
+        <span class="banhos-title-star">✦</span>
+      </h2>
+
+      <p>
+        Limpeza, proteção, amor próprio, prosperidade<br>
+        e equilíbrio espiritual para o seu dia a dia.
+      </p>
+
+      <button>Conhecer os banhos</button>
+    </div>
+
+    <div class="banhos-icon">
+      <img src="../assets/img/imagensInicio/iconeBanhosEnergéticos.png" alt="">
+    </div>
+  </div>
+</section>
+
+<div class="section-line"></div>
+
+  </main>
+
+  <div id="footer"></div>
+<script src="../js/footer.js"></script>
+<script>
+  const menuToggle = document.querySelector(".menu-toggle");
+  const menu = document.querySelector("#menu-principal");
+
+  if (menuToggle && menu) {
+    menuToggle.addEventListener("click", () => {
+      const isOpen = menu.classList.toggle("is-open");
+      menuToggle.classList.toggle("is-open", isOpen);
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        menu.classList.remove("is-open");
+        menuToggle.classList.remove("is-open");
+        menuToggle.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
+</script>
+</body>
+</html>
