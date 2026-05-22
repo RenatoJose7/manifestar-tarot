@@ -1,0 +1,150 @@
+.pagina-leituras {
+  background: var(--preto);
+  color: var(--branco);
+  min-height: 70vh;
+}
+
+.leituras-hero {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 80px 24px 46px;
+  text-align: center;
+}
+
+.section-kicker {
+  color: var(--dourado);
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.section-kicker::before,
+.section-kicker::after {
+  content: "\2726";
+  margin: 0 10px;
+}
+
+.leituras-hero h1 {
+  font-family: "Times New Roman", serif;
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 400;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.leituras-hero p {
+  max-width: 640px;
+  margin: 0 auto;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.7;
+}
+
+.leituras-lista {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px 86px;
+}
+
+.leituras-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 28px;
+}
+
+.card-leitura-interna {
+  min-height: 360px;
+  background: var(--branco);
+  color: var(--preto);
+  border: 1px solid rgba(174, 135, 70, 0.45);
+  padding: 30px 24px 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.card-simbolo {
+  width: 78px;
+  height: 78px;
+  border: 1px solid rgba(174, 135, 70, 0.45);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--dourado);
+  font-family: "Times New Roman", serif;
+  font-size: 34px;
+  margin-bottom: 22px;
+}
+
+.card-leitura-interna h2 {
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 8px;
+}
+
+.card-categoria {
+  display: inline-block;
+  background: var(--dourado);
+  color: var(--branco);
+  padding: 4px 9px;
+  font-size: 11px;
+  margin-bottom: 18px;
+}
+
+.card-descricao {
+  font-size: 14px;
+  line-height: 1.55;
+  margin-bottom: 18px;
+  flex: 1;
+}
+
+.card-meta {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  color: var(--preto);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.card-meta strong {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.botao-card {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 142px;
+  height: 40px;
+  background: var(--dourado);
+  color: var(--branco);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 13px;
+  transition: background 0.25s ease;
+}
+
+.botao-card:hover {
+  background: #98743a;
+}
+
+.estado-pagina {
+  text-align: center;
+  color: var(--dourado);
+  margin-top: 24px;
+}
+
+@media (max-width: 640px) {
+  .leituras-hero {
+    padding-top: 56px;
+  }
+
+  .leituras-grid {
+    grid-template-columns: 1fr;
+  }
+}

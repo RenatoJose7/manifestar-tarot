@@ -1,27 +1,14 @@
-import express from "express";
-import  {leituras}  from "../data/leituras.js"
-
+import express from "express"
+import {
+  buscarCamposDaLeitura,
+  buscarLeituraPorId,
+  listarLeituras
+} from "../controllers/leituras.controller.js"
 
 const router = express.Router()
 
-router.get("/", (req, res) => {
-   res.json(leituras)
-})
+router.get("/", listarLeituras)
+router.get("/:id", buscarLeituraPorId)
+router.get("/:id/campos", buscarCamposDaLeitura)
 
-router.get("/:id", (req, res) => {
-    const { id } = req.params
-
-    const leitura = leituras.find((item) => item.id === id)
-
-    if(!leitura){
-        return res.status(404).json({
-            erro: "Leitura não encontrada"
-        })
-    }
-
-    res.json(leitura)
-})
-
-export default router   
-
-
+export default router

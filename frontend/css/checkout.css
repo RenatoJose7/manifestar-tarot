@@ -1,0 +1,160 @@
+.pagina-checkout {
+  min-height: 70vh;
+  background: var(--branco);
+  padding: 74px 24px 90px;
+}
+
+.checkout-cabecalho,
+.confirmacao-card {
+  max-width: 760px;
+  margin: 0 auto 34px;
+  text-align: center;
+}
+
+.section-kicker {
+  color: var(--dourado);
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.section-kicker::before,
+.section-kicker::after {
+  content: "\2726";
+  margin: 0 10px;
+}
+
+.checkout-cabecalho h1,
+.confirmacao-card h1 {
+  font-family: "Times New Roman", serif;
+  font-size: clamp(38px, 6vw, 58px);
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.checkout-grid {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.checkout-card,
+.confirmacao-card {
+  border: 1px solid rgba(174, 135, 70, 0.55);
+  padding: 30px;
+  background: #fff;
+}
+
+.checkout-card h2 {
+  font-family: "Times New Roman", serif;
+  font-size: 28px;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.resumo-lista,
+.respostas-lista,
+.agenda-lista {
+  display: grid;
+  gap: 12px;
+}
+
+.resumo-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  border-bottom: 1px solid rgba(174, 135, 70, 0.2);
+  padding-bottom: 10px;
+  line-height: 1.5;
+}
+
+.resumo-item span {
+  color: rgba(31, 31, 31, 0.64);
+}
+
+.resumo-secao {
+  margin-top: 26px;
+}
+
+.cupom-linha {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+.cupom-linha input {
+  min-height: 42px;
+  border: 1px solid rgba(174, 135, 70, 0.55);
+  padding: 10px;
+  font: inherit;
+  text-transform: uppercase;
+}
+
+.cupom-linha button {
+  background: var(--preto);
+  color: var(--branco);
+  border: none;
+  padding: 0 16px;
+  cursor: pointer;
+}
+
+.texto-ajuda {
+  color: rgba(31, 31, 31, 0.68);
+  line-height: 1.5;
+  margin: 12px 0 18px;
+}
+
+.linha-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(174, 135, 70, 0.25);
+}
+
+.total-final {
+  font-size: 20px;
+}
+
+.pagamento-placeholder {
+  border: 1px solid rgba(174, 135, 70, 0.35);
+  padding: 20px;
+  margin: 24px 0;
+  text-align: center;
+}
+
+.botao-principal {
+  width: 100%;
+  min-height: 48px;
+  background: var(--dourado);
+  color: var(--branco);
+  border: none;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+@media (max-width: 860px) {
+  .checkout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .pagina-checkout {
+    padding: 54px 18px 72px;
+  }
+
+  .checkout-card,
+  .confirmacao-card {
+    padding: 24px 18px;
+  }
+
+  .cupom-linha {
+    grid-template-columns: 1fr;
+  }
+}

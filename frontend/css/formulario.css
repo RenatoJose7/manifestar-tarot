@@ -1,0 +1,182 @@
+.pagina-formulario {
+  background: var(--branco);
+  min-height: 70vh;
+  padding: 72px 24px 88px;
+}
+
+.formulario-cabecalho {
+  max-width: 760px;
+  margin: 0 auto 34px;
+  text-align: center;
+}
+
+.section-kicker {
+  color: var(--dourado);
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.section-kicker::before,
+.section-kicker::after {
+  content: "\2726";
+  margin: 0 10px;
+}
+
+.formulario-cabecalho h1 {
+  font-family: "Times New Roman", serif;
+  font-size: clamp(38px, 6vw, 58px);
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.formulario-cabecalho p {
+  line-height: 1.7;
+}
+
+.formulario-leitura {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.bloco-formulario {
+  border: 1px solid rgba(174, 135, 70, 0.55);
+  padding: 28px;
+  margin-bottom: 28px;
+  background: #fff;
+}
+
+.bloco-formulario h2 {
+  font-family: "Times New Roman", serif;
+  font-weight: 400;
+  font-size: 30px;
+  color: var(--dourado);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.campos-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.campo-formulario {
+  display: grid;
+  gap: 8px;
+}
+
+.campo-formulario label,
+.sessao-campo label {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.campo-formulario input,
+.campo-formulario select,
+.campo-formulario textarea,
+.sessao-campo input,
+.sessao-campo select {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid rgba(174, 135, 70, 0.55);
+  padding: 10px 12px;
+  font: inherit;
+  background: #fff;
+}
+
+.campo-formulario textarea {
+  min-height: 112px;
+  resize: vertical;
+}
+
+.formatos-sessao {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.formato-card {
+  border: 1px solid rgba(174, 135, 70, 0.55);
+  padding: 22px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.formato-card input {
+  position: absolute;
+  opacity: 0;
+}
+
+.formato-card.is-selected {
+  background: var(--preto);
+  color: var(--branco);
+}
+
+.agenda-sessoes {
+  display: grid;
+  gap: 18px;
+}
+
+.sessao-card {
+  border: 1px solid rgba(174, 135, 70, 0.32);
+  padding: 18px;
+}
+
+.sessao-card h3 {
+  font-size: 16px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.sessao-campos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.texto-ajuda {
+  color: rgba(31, 31, 31, 0.68);
+  text-align: center;
+  margin-top: 14px;
+  line-height: 1.5;
+}
+
+.mensagem-erro {
+  color: #8a1f1f;
+  text-align: center;
+  min-height: 24px;
+  margin-bottom: 14px;
+}
+
+.botao-principal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(320px, 100%);
+  min-height: 50px;
+  margin: 0 auto;
+  background: var(--dourado);
+  color: var(--branco);
+  border: none;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .pagina-formulario {
+    padding: 52px 18px 70px;
+  }
+
+  .bloco-formulario {
+    padding: 22px 16px;
+  }
+
+  .formatos-sessao,
+  .sessao-campos {
+    grid-template-columns: 1fr;
+  }
+}

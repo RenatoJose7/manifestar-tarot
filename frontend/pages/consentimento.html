@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consentimento | Manifestar Tarot</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/header.css">
+  <link rel="stylesheet" href="../css/footer.css">
+  <link rel="stylesheet" href="../css/informativo.css">
+</head>
+<body>
+  <div id="header"></div>
+
+  <main class="pagina-informativo">
+    <section class="informativo-card">
+      <p class="section-kicker">Detalhes da sessão</p>
+      <h1>Informativo</h1>
+
+      <div class="informativo-texto">
+        <p>
+          As consultas realizadas possuem o foco de adivinhação, clareza e mais
+          conexão com autoconhecimento.
+        </p>
+        <p>
+          Todas as consultas são realizadas via whatsapp, seja por audio gravado
+          ou chamada de video.
+        </p>
+        <p>
+          Sobre os agendamentos de chamada de video, caso ocorra algum imprevisto
+          no horário marcado, avisar com até 12 horas de antecedência para
+          remarcar o atendimento. Se não avisado antes desse prazo será enviado o
+          áudio, no horário marcado, com a leitura e a imagem do baralho, sem
+          possibilidade de remarcação da chamada.
+        </p>
+        <p>
+          Não abordo temas de saúde nem situações envolvendo terceiros que não
+          tenham relação direta com você.
+        </p>
+      </div>
+
+      <label class="checkbox-consentimento">
+        <input id="aceite-consentimento" type="checkbox">
+        <span>Li e concordo com as condições da sessão</span>
+      </label>
+
+      <p id="consentimento-erro" class="mensagem-erro"></p>
+      <button id="continuar-consentimento" class="botao-principal" type="button">
+        Continuar para pagamento
+      </button>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="../js/components.js"></script>
+  <script src="../js/consentimento.js"></script>
+</body>
+</html>
