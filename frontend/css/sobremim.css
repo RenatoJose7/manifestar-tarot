@@ -5,11 +5,11 @@
 
 .sobre-apresentacao {
   max-width: 1180px;
-  min-height: 370px;
+  min-height: min(860px, calc(100vh - 86px));
   margin: 0 auto;
-  padding: 48px 54px 42px;
+  padding: clamp(84px, 10vh, 130px) 54px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 420px;
+  grid-template-columns: minmax(0, 1fr) 430px;
   gap: 80px;
   align-items: center;
 }
@@ -20,7 +20,7 @@
 
 .sobre-kicker {
   color: var(--dourado);
-  font-size: 13px;
+  font-size: clamp(13px, 0.95vw, 16px);
   text-transform: uppercase;
   line-height: 1;
   margin-bottom: 10px;
@@ -41,28 +41,28 @@
 }
 
 .sobre-apresentacao h1 {
-  font-size: 34px;
-  margin-bottom: 24px;
+  font-size: clamp(36px, 3.5vw, 52px);
+  margin-bottom: 28px;
 }
 
 .sobre-apresentacao p,
 .sobre-experiencias p,
 .sobre-origens p {
-  font-size: 16px;
-  line-height: 1.18;
+  font-size: clamp(17px, 1.15vw, 21px);
+  line-height: 1.28;
 }
 
 .sobre-foto {
   width: 100%;
-  aspect-ratio: 1.24 / 1;
-  border: 4px solid var(--dourado);
-  background:
-    linear-gradient(135deg, rgba(174, 135, 70, 0.12), rgba(174, 135, 70, 0.02)),
-    #f7f4ed;
+  aspect-ratio: 1 / 1;
+  background-image: url("../assets/img/fotoSobreMim.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .sobre-experiencias {
-  min-height: 300px;
+  min-height: min(820px, 88vh);
   background: var(--preto);
   color: var(--branco);
   border-top: 10px solid var(--dourado);
@@ -73,36 +73,38 @@
 
 .sobre-experiencias-texto {
   width: min(1180px, 100%);
+  min-height: min(820px, 88vh);
   margin: 0 auto;
-  padding: 48px 54px;
+  padding: clamp(92px, 12vh, 150px) 54px;
   display: grid;
   justify-items: end;
+  align-content: center;
   text-align: right;
 }
 
 .sobre-experiencias-texto p {
-  max-width: 560px;
+  max-width: 650px;
 }
 
 .sobre-experiencias h2 {
-  font-size: 36px;
-  margin-bottom: 22px;
+  font-size: clamp(38px, 3.8vw, 56px);
+  margin-bottom: 26px;
 }
 
 .sobre-origens {
   max-width: 1180px;
-  min-height: 390px;
+  min-height: min(860px, 88vh);
   margin: 0 auto;
-  padding: 58px 54px 64px;
+  padding: clamp(92px, 12vh, 150px) 54px;
   display: grid;
-  grid-template-columns: 220px minmax(0, 1fr) 220px;
-  gap: 62px;
+  grid-template-columns: 220px minmax(520px, 1fr) 220px;
+  gap: 56px;
   align-items: center;
   text-align: center;
 }
 
 .sobre-origens-texto {
-  max-width: 560px;
+  max-width: 650px;
   margin: 0 auto;
 }
 
@@ -112,8 +114,9 @@
 }
 
 .sobre-origens h2 {
-  font-size: 32px;
-  margin-bottom: 24px;
+  font-size: clamp(36px, 3.4vw, 52px);
+  margin-bottom: 28px;
+  white-space: nowrap;
 }
 
 .sobre-origens p + p {
@@ -121,35 +124,21 @@
 }
 
 .sobre-ornamento {
-  width: min(180px, 100%);
-  aspect-ratio: 0.62 / 1;
+  width: min(210px, 100%);
+  height: 360px;
   margin: 0 auto;
-  position: relative;
-}
-
-.sobre-ornamento::before {
-  content: "";
-  position: absolute;
-  inset: 28px 24px;
-  border: 2px solid var(--dourado);
-  border-radius: 50% 50% 46% 46%;
-}
-
-.sobre-ornamento::after {
-  content: "\2726";
-  position: absolute;
-  left: 50%;
-  top: 0;
-  transform: translateX(-50%);
-  color: var(--dourado);
-  font-size: 24px;
+  background-image: url("../assets/icones/iconeSobreMim.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 @media (max-width: 900px) {
   .sobre-apresentacao {
     grid-template-columns: 1fr;
     gap: 34px;
-    padding: 42px 28px;
+    min-height: auto;
+    padding: 78px 28px;
   }
 
   .sobre-apresentacao-texto {
@@ -162,43 +151,65 @@
     margin: 0 auto;
   }
 
+  .sobre-experiencias {
+    min-height: 72vh;
+  }
+
   .sobre-experiencias-texto {
+    min-height: 72vh;
     justify-items: center;
     text-align: center;
-    padding: 46px 28px;
+    padding: 90px 28px;
   }
 
   .sobre-origens {
     grid-template-columns: 1fr;
     gap: 30px;
-    padding: 46px 28px 58px;
+    min-height: auto;
+    padding: 82px 28px 96px;
   }
 
   .sobre-ornamento {
-    width: 120px;
+    width: 130px;
+    height: 230px;
   }
 }
 
 @media (max-width: 560px) {
   .sobre-apresentacao {
-    padding: 36px 22px;
+    padding: 68px 22px;
   }
 
   .sobre-apresentacao h1,
   .sobre-experiencias h2,
   .sobre-origens h2 {
-    font-size: 30px;
+    white-space: normal;
+  }
+
+  .sobre-apresentacao h1,
+  .sobre-experiencias h2,
+  .sobre-origens h2 {
+    font-size: 36px;
   }
 
   .sobre-apresentacao p,
   .sobre-experiencias p,
   .sobre-origens p {
-    font-size: 15px;
+    font-size: 17px;
     line-height: 1.35;
+  }
+
+  .sobre-kicker {
+    font-size: 13px;
   }
 
   .sobre-experiencias {
     border-top-width: 7px;
     border-bottom-width: 7px;
+    min-height: 74vh;
+  }
+
+  .sobre-experiencias-texto {
+    min-height: 74vh;
   }
 }

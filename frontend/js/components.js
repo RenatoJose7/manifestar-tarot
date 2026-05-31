@@ -49,6 +49,25 @@ function ajustarLinksDoHeader() {
       window.location.href = "./index.html"
     })
   }
+
+  const menuToggle = header.querySelector(".menu-toggle")
+  const menu = header.querySelector("#menu-principal")
+
+  if (menuToggle && menu) {
+    menuToggle.addEventListener("click", () => {
+      const isOpen = menu.classList.toggle("is-open")
+      menuToggle.classList.toggle("is-open", isOpen)
+      menuToggle.setAttribute("aria-expanded", String(isOpen))
+    })
+
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        menu.classList.remove("is-open")
+        menuToggle.classList.remove("is-open")
+        menuToggle.setAttribute("aria-expanded", "false")
+      })
+    })
+  }
 }
 
 function ajustarLinksDoFooter() {
@@ -68,7 +87,22 @@ function ajustarLinksDoFooter() {
   })
 }
 
+function carregarFontAwesome() {
+  const id = "font-awesome-icons"
+
+  if (document.getElementById(id)) {
+    return
+  }
+
+  const link = document.createElement("link")
+  link.id = id
+  link.rel = "stylesheet"
+  link.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  document.head.appendChild(link)
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
+  carregarFontAwesome()
   await carregarComponente("header", "../components/header.html", "header")
   ajustarLinksDoHeader()
   await carregarComponente("footer", "../components/footer.html", "footer")

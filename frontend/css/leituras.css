@@ -1,88 +1,158 @@
 .pagina-leituras {
-  background: var(--preto);
-  color: var(--branco);
-  min-height: 70vh;
-}
-
-.leituras-hero {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 80px 24px 46px;
-  text-align: center;
+  background: var(--branco);
+  color: var(--preto);
 }
 
 .section-kicker {
   color: var(--dourado);
-  font-size: 14px;
-  letter-spacing: 1px;
+  font-size: 15px;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
   margin-bottom: 10px;
 }
 
-.section-kicker::before,
 .section-kicker::after {
   content: "\2726";
-  margin: 0 10px;
+  margin-left: 16px;
 }
 
-.leituras-hero h1 {
-  font-family: "Times New Roman", serif;
-  font-size: clamp(36px, 5vw, 56px);
-  font-weight: 400;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  margin-bottom: 18px;
-}
-
-.leituras-hero p {
-  max-width: 640px;
+.leituras-intro {
+  min-height: 520px;
+  max-width: 1180px;
   margin: 0 auto;
-  color: rgba(255, 255, 255, 0.78);
-  line-height: 1.7;
+  padding: 86px 54px 76px;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(340px, 0.8fr);
+  gap: 92px;
+  align-items: center;
+}
+
+.leituras-intro-texto {
+  max-width: 520px;
+}
+
+.leituras-intro h1 {
+  font-family: "Times New Roman", serif;
+  font-size: clamp(34px, 4vw, 50px);
+  font-weight: 400;
+  line-height: 0.98;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+.leituras-intro-texto p:last-child {
+  font-size: 17px;
+  line-height: 1.55;
+  color: rgba(31, 31, 31, 0.78);
+}
+
+.leituras-intro-imagem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.leituras-intro-imagem img {
+  width: min(420px, 100%);
+  height: auto;
+  display: block;
 }
 
 .leituras-lista {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 0 24px 86px;
+  background: var(--preto);
+  color: var(--branco);
+  border-top: 2px solid var(--dourado);
+  padding: 70px 24px 110px;
+}
+
+.leituras-lista-cabecalho {
+  text-align: center;
+  margin: 0 auto 58px;
+}
+
+.leituras-lista-cabecalho .section-kicker::before {
+  content: "\2726";
+  margin-right: 16px;
+}
+
+.leituras-lista-cabecalho h2 {
+  font-family: "Times New Roman", serif;
+  font-size: clamp(34px, 4vw, 50px);
+  font-weight: 400;
+  letter-spacing: 5px;
+  text-transform: uppercase;
 }
 
 .leituras-grid {
+  width: min(1180px, 100%);
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 42px 34px;
+  align-items: stretch;
 }
 
 .card-leitura-interna {
-  min-height: 360px;
+  min-height: 350px;
+  height: 100%;
   background: var(--branco);
   color: var(--preto);
-  border: 1px solid rgba(174, 135, 70, 0.45);
-  padding: 30px 24px 26px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  border: 1px solid rgba(174, 135, 70, 0.35);
+  padding: 30px 22px 26px;
+  display: grid;
+  grid-template-rows: 118px auto auto 1fr auto;
+  justify-items: center;
   text-align: center;
+  overflow: hidden;
 }
 
-.card-simbolo {
-  width: 78px;
-  height: 78px;
-  border: 1px solid rgba(174, 135, 70, 0.45);
-  border-radius: 50%;
+.card-icone {
+  width: 92px;
+  height: 104px;
   display: grid;
   place-items: center;
-  color: var(--dourado);
-  font-family: "Times New Roman", serif;
-  font-size: 34px;
-  margin-bottom: 22px;
+  margin-bottom: 14px;
+  overflow: visible;
 }
 
-.card-leitura-interna h2 {
-  font-size: 18px;
+.card-icone img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transform-origin: center;
+}
+
+.card-jupiter .card-icone img {
+  transform: scale(0.78);
+}
+
+.card-sol .card-icone img,
+.card-venus-casal .card-icone img {
+  transform: scale(0.94);
+}
+
+.card-venus-individual .card-icone img {
+  transform: scale(1.12);
+}
+
+.card-mercurio .card-icone img {
+  transform: scale(1.08);
+}
+
+.card-completao-tarot .card-icone img,
+.card-mandala-cigana .card-icone img {
+  transform: scale(1.46);
+}
+
+.card-leitura-interna h3 {
+  align-self: center;
+  font-size: 15px;
+  line-height: 1.15;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+  margin-bottom: 9px;
+  max-width: 100%;
 }
 
 .card-categoria {
@@ -90,42 +160,33 @@
   background: var(--dourado);
   color: var(--branco);
   padding: 4px 9px;
-  font-size: 11px;
+  font-size: 10px;
+  line-height: 1;
   margin-bottom: 18px;
+  max-width: 100%;
 }
 
 .card-descricao {
+  width: 100%;
+  max-width: 210px;
   font-size: 14px;
-  line-height: 1.55;
-  margin-bottom: 18px;
-  flex: 1;
-}
-
-.card-meta {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  color: var(--preto);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-.card-meta strong {
-  font-size: 18px;
-  font-weight: 500;
+  line-height: 1.35;
+  color: rgba(31, 31, 31, 0.82);
+  margin: 0 auto 20px;
 }
 
 .botao-card {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 142px;
-  height: 40px;
+  width: 146px;
+  height: 38px;
   background: var(--dourado);
   color: var(--branco);
   text-decoration: none;
   text-transform: uppercase;
-  font-size: 13px;
+  font-size: 12px;
+  font-weight: 500;
   transition: background 0.25s ease;
 }
 
@@ -136,15 +197,53 @@
 .estado-pagina {
   text-align: center;
   color: var(--dourado);
-  margin-top: 24px;
+  margin-top: 28px;
 }
 
-@media (max-width: 640px) {
-  .leituras-hero {
-    padding-top: 56px;
+@media (max-width: 1040px) {
+  .leituras-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 820px) {
+  .leituras-intro {
+    grid-template-columns: 1fr;
+    gap: 44px;
+    padding: 70px 28px;
+    text-align: center;
+  }
+
+  .leituras-intro-texto {
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  .leituras-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .leituras-intro {
+    padding: 54px 20px 62px;
+  }
+
+  .leituras-lista {
+    padding: 52px 20px 76px;
+  }
+
+  .leituras-lista-cabecalho h2 {
+    letter-spacing: 2px;
   }
 
   .leituras-grid {
     grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .card-leitura-interna {
+    min-height: 330px;
+    padding-top: 26px;
   }
 }
