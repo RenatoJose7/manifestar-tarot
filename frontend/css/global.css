@@ -11,6 +11,10 @@
     box-sizing: border-box;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   :root {
     --dourado: #AE8746;
     --preto: #1f1f1f;
@@ -23,5 +27,108 @@
     background: var(--branco);
     color: var(--preto);
     overflow-x: hidden;
+  }
+
+  :where(a, button, input, textarea, select) {
+    transition:
+      color 0.25s ease,
+      background-color 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease,
+      transform 0.25s ease,
+      opacity 0.25s ease;
+  }
+
+  :where(button, .botao-principal, .botao-card, .leituras-btn, .header-btn, .hero-btn) {
+    will-change: transform;
+  }
+
+  :where(button, .botao-principal, .botao-card, .leituras-btn, .header-btn, .hero-btn):hover {
+    transform: translateY(-1px);
+  }
+
+  :where(button, .botao-principal, .botao-card, .leituras-btn, .header-btn, .hero-btn):active {
+    transform: translateY(0);
+  }
+
+  :where(input, textarea, select):focus {
+    outline: none;
+    border-color: var(--dourado);
+    box-shadow: 0 0 0 3px rgba(174, 135, 70, 0.14);
+  }
+
+  :where(.card-leitura, .card-leitura-interna, .leitura-card, .checkout-card, .confirmacao-card, .formato-card, .sessao-card, .pagamento-placeholder) {
+    transition:
+      transform 0.32s ease,
+      box-shadow 0.32s ease,
+      border-color 0.32s ease,
+      opacity 0.32s ease;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    body {
+      animation: pageFadeIn 0.42s ease both;
+    }
+
+    :where(
+      .header,
+      main > section,
+      .card-leitura,
+      .card-leitura-interna,
+      .leitura-card,
+      .checkout-card,
+      .confirmacao-card,
+      .formato-card,
+      .sessao-card,
+      .pagamento-placeholder,
+      .rodape
+    ) {
+      animation: softRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    :where(.card-leitura, .card-leitura-interna, .formato-card, .sessao-card):nth-child(2) {
+      animation-delay: 0.06s;
+    }
+
+    :where(.card-leitura, .card-leitura-interna, .formato-card, .sessao-card):nth-child(3) {
+      animation-delay: 0.1s;
+    }
+
+    :where(.card-leitura, .card-leitura-interna, .formato-card, .sessao-card):nth-child(4) {
+      animation-delay: 0.14s;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  @keyframes pageFadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes softRise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
