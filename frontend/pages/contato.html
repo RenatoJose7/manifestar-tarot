@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contato | Manifestar Tarot</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/header.css">
+  <link rel="stylesheet" href="../css/footer.css">
+  <link rel="stylesheet" href="../css/contato.css">
+</head>
+<body>
+  <div id="header"></div>
+
+  <main class="pagina-contato">
+    <section class="contato-mensagem">
+      <div class="contato-mensagem-texto">
+        <p class="contato-kicker">Mensagem guiada</p>
+        <h1>Envie sua dúvida pelo WhatsApp</h1>
+        <p>
+          Preencha os campos e eu preparo uma mensagem inicial para você enviar
+          diretamente pelo WhatsApp.
+        </p>
+      </div>
+
+      <form class="contato-form" id="contato-form">
+        <label>
+          Nome
+          <input type="text" name="nome" autocomplete="name" placeholder="Seu nome" required>
+        </label>
+
+        <label>
+          Assunto
+          <select name="assunto" required>
+            <option value="" selected disabled>Selecione uma opção</option>
+            <option value="Leitura de Tarot">Leitura de Tarot</option>
+            <option value="Banhos energéticos">Banhos energéticos</option>
+            <option value="Dúvida sobre pedido">Dúvida sobre pedido</option>
+            <option value="Outro assunto">Outro assunto</option>
+          </select>
+        </label>
+
+        <label class="campo-mensagem">
+          Mensagem
+          <textarea name="mensagem" rows="6" placeholder="Me conte como posso te ajudar" required></textarea>
+        </label>
+
+        <button class="contato-btn" type="submit">Enviar pelo WhatsApp</button>
+      </form>
+    </section>
+
+    <section class="contato-canais" aria-label="Canais de contato">
+      <div class="contato-canais-cabecalho">
+        <p class="contato-kicker">Canais</p>
+        <h2>Escolha como prefere conversar</h2>
+      </div>
+
+      <div class="contato-grid">
+        <a class="contato-card" href="https://wa.me/5511976507194" target="_blank" rel="noopener noreferrer">
+          <span class="contato-card-icone"><i class="fa-brands fa-whatsapp"></i></span>
+          <strong>WhatsApp</strong>
+          <span>Para agendamentos, dúvidas rápidas e acompanhamento do pedido.</span>
+        </a>
+
+        <a class="contato-card" href="https://instagram.com/manifestartarot" target="_blank" rel="noopener noreferrer">
+          <span class="contato-card-icone"><i class="fa-brands fa-instagram"></i></span>
+          <strong>Instagram</strong>
+          <span>Para acompanhar novidades, conteúdos e bastidores do Manifestar.</span>
+        </a>
+
+        <a class="contato-card" href="mailto:manifestartarot@gmail.com">
+          <span class="contato-card-icone"><i class="fa-regular fa-envelope"></i></span>
+          <strong>Email</strong>
+          <span>Para conversas mais detalhadas e solicitações especiais.<br>manifestartarot@gmail.com</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="../js/components.js"></script>
+  <script src="../js/contato.js"></script>
+</body>
+</html>

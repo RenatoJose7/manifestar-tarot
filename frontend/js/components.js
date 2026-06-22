@@ -25,7 +25,7 @@ function ajustarLinksDoHeader() {
   }
 
   const links = [...header.querySelectorAll("a")]
-  const destinos = ["./index.html", "./sobremim.html", "./leituras.html", "./banhos.html", "#footer"]
+  const destinos = ["./index.html", "./sobremim.html", "./leituras.html", "./banhos.html", "./contato.html"]
 
   links.forEach((link, index) => {
     if (destinos[index]) {
@@ -78,7 +78,7 @@ function ajustarLinksDoFooter() {
   }
 
   const linksNavegacao = [...footer.querySelectorAll(".linksRodape a")]
-  const destinos = ["./index.html", "./sobremim.html", "./leituras.html", "./banhos.html", "#footer"]
+  const destinos = ["./index.html", "./sobremim.html", "./leituras.html", "./banhos.html", "./contato.html"]
 
   linksNavegacao.forEach((link, index) => {
     if (destinos[index]) {

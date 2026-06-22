@@ -130,7 +130,11 @@
   display: grid;
   grid-template-columns: minmax(52%, 1fr) minmax(390px, 48%);
   align-items: center;
-  animation: heroFade 1s ease forwards;
+}
+
+.hero::after {
+  content: "";
+  display: none;
 }
 
 .hero-content {
@@ -150,7 +154,8 @@
 .hero-text,
 .hero-btn {
   opacity: 0;
-  animation: fadeUp 0.9s ease forwards;
+  animation: fadeUp 0.82s ease forwards;
+  will-change: opacity, transform;
 }
 
 .hero-content h1 {
@@ -161,7 +166,7 @@
   letter-spacing: clamp(6px, 1vw, 14px);
   text-transform: uppercase;
   color: var(--preto);
-  animation-delay: 0.2s;
+  animation-delay: 0.12s;
 }
 
 .hero-content h2 {
@@ -172,7 +177,7 @@
   text-transform: uppercase;
   margin-top: 6px;
   line-height: 1;
-  animation-delay: 0.4s;
+  animation-delay: 0.24s;
 }
 
 .hero-name {
@@ -181,7 +186,7 @@
   letter-spacing: 4px;
   line-height: 1;
   margin-top: 15px;
-  animation-delay: 0.6s;
+  animation-delay: 0.36s;
 }
 
 .hero-divider {
@@ -190,7 +195,7 @@
   background: var(--dourado);
   margin: 38px auto 34px;
   position: relative;
-  animation-delay: 0.8s;
+  animation-delay: 0.48s;
 }
 
 .hero-divider::before {
@@ -214,7 +219,7 @@
   line-height: 1.38;
   text-transform: uppercase;
   color: var(--preto);
-  animation-delay: 1s;
+  animation-delay: 0.6s;
 }
 
 .hero-btn {
@@ -229,7 +234,7 @@
   text-transform: uppercase;
   cursor: pointer;
   border-radius: 2px;
-  animation-delay: 1.2s;
+  animation-delay: 0.72s;
   transition: background 0.25s ease, transform 0.25s ease;
 }
 
@@ -652,12 +657,24 @@
 
   .hero {
     min-height: auto;
-    grid-template-columns: 1fr auto;
-    align-items: end;
+    display: flex;
+    flex-direction: column;
+    background-image: none;
     background-color: #E4D9C8;
-    background-size: auto 410px;
-    background-position: left top;
-    padding: 430px 20px 56px;
+    padding: 58px 20px 0;
+  }
+
+  .hero::after {
+    content: "";
+    display: block;
+    width: calc(100% + 40px);
+    min-height: 440px;
+    margin: 42px -20px 0;
+    background-image: url("../assets/img/imgHero.png");
+    background-size: auto 100%;
+    background-position: left bottom;
+    background-repeat: no-repeat;
+    animation: heroImageIn 0.7s ease both;
   }
 
   .hero-content {
@@ -776,8 +793,15 @@
   }
 
   .hero {
-    background-size: auto 355px;
-    padding: 382px 18px 48px;
+    padding: 52px 18px 0;
+  }
+
+  .hero::after {
+    width: calc(100% + 36px);
+    min-height: 390px;
+    margin-left: -18px;
+    margin-right: -18px;
+    margin-top: 36px;
   }
 
   .hero-content {
@@ -831,8 +855,13 @@
   }
 
   .hero {
-    background-size: auto 315px;
-    padding-top: 340px;
+    padding-top: 44px;
+  }
+
+  .hero::after {
+    width: calc(100% + 36px);
+    min-height: 330px;
+    margin-top: 32px;
   }
 
   .hero-content h1 {
@@ -857,22 +886,20 @@
 
 /* ANIMAÇÕES */
 
-@keyframes heroFade {
+@keyframes heroImageIn {
   from {
     opacity: 0;
-    transform: translateX(-24px);
   }
 
   to {
     opacity: 1;
-    transform: translateX(0);
   }
 }
 
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(18px);
   }
 
   to {

@@ -373,7 +373,7 @@ async function consultarDisponibilidade(formato, data) {
         formato,
         data,
         disponivel: true,
-        horarios: ["09:00", "10:00", "14:00", "15:00"],
+        horarios: ["19:30", "20:30", "21:30", "22:30"],
         mensagem: "Hor\u00e1rios dispon\u00edveis para videochamada."
       }
     }

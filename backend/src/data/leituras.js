@@ -127,7 +127,7 @@ export const leituras = [
     preco: 400,
     duracao: "1h por área",
     descricao:
-      "Combo correspondente ao Método Vênus, individual ou de casal, Método Mercúrio e Método Júpiter.",
+      "Combo correspondente ao Método Vênus (individual ou casal), Método Mercúrio e Método Júpiter.",
     observacao:
       "Como são três métodos no total, será necessário que a pessoa escolha uma leitura por dia, sendo definido a partir da necessidade da consulente.",
     topicos: ["Método Vênus Individual ou Casal", "Método Mercúrio", "Método Júpiter"],
@@ -168,7 +168,6 @@ export const leituras = [
     duracao: "2h",
     descricao:
       "Método destinado à previsão e tendência das 12 áreas gerais da sua vida para os próximos 6 meses.",
-    observacao: "Valor oficial atual da Mandala Cigana: R$ 500.",
     topicos: [
       "Propósito Anual",
       "Amor",

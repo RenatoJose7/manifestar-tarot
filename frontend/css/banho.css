@@ -1,15 +1,15 @@
-.pagina-leitura {
+.pagina-banho {
   background: var(--branco);
   min-height: 70vh;
   padding: 76px 24px 90px;
 }
 
-.detalhe-leitura {
+.detalhe-banho {
   max-width: 980px;
   margin: 0 auto;
 }
 
-.leitura-topo {
+.banho-topo {
   text-align: center;
   margin-bottom: 38px;
 }
@@ -28,7 +28,7 @@
   margin: 0 10px;
 }
 
-.leitura-topo h1 {
+.banho-topo h1 {
   font-family: "Times New Roman", serif;
   font-size: clamp(38px, 6vw, 62px);
   font-weight: 400;
@@ -36,72 +36,122 @@
   text-transform: uppercase;
 }
 
-.leitura-descricao {
+.banho-descricao {
   max-width: 760px;
   margin: 20px auto 0;
   line-height: 1.75;
   font-size: 17px;
 }
 
-.leitura-grid {
+.banho-forca {
+  width: fit-content;
+  max-width: 100%;
+  margin: 24px auto 0;
+  border: 1px solid rgba(174, 135, 70, 0.48);
+  padding: 12px 18px;
+  color: var(--dourado);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.banho-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.6fr);
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
   gap: 28px;
   align-items: start;
 }
 
-.leitura-card {
+.banho-grid:has(> .pedido-box:only-child) {
+  grid-template-columns: 1fr;
+}
+
+.banho-card-detalhe {
   border: 1px solid rgba(174, 135, 70, 0.55);
   padding: 34px;
   background: #fff;
 }
 
-.leitura-card h2 {
+.banho-card-detalhe h2 {
   font-family: "Times New Roman", serif;
   font-size: 30px;
   font-weight: 400;
   text-transform: uppercase;
   margin-bottom: 20px;
-  text-align: center;
 }
 
-.topicos-lista {
+.ingredientes-lista {
   display: grid;
   gap: 14px;
   padding: 0;
   list-style: none;
 }
 
-.topicos-lista li {
+.ingredientes-lista li {
   line-height: 1.55;
-  text-align: center;
 }
 
-.topicos-lista li::before {
+.ingredientes-lista li::before {
   content: "\2726";
   color: var(--dourado);
   margin-right: 10px;
 }
 
-.preco-box {
+.pedido-box {
   text-align: center;
 }
 
-.preco-box .preco {
-  font-size: 34px;
-  margin: 18px 0 4px;
+.banho-grid > .pedido-box:only-child {
+  width: min(100%, 560px);
+  justify-self: center;
 }
 
-.preco-box .duracao {
-  color: rgba(31, 31, 31, 0.68);
-  margin-bottom: 22px;
+.pedido-box > p:first-child {
+  color: var(--dourado);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 8px;
 }
 
-.formatos-lista {
+.quantidade-campo {
   display: grid;
   gap: 8px;
-  margin: 22px 0;
-  color: rgba(31, 31, 31, 0.8);
+  margin: 24px 0;
+  text-align: left;
+  color: rgba(31, 31, 31, 0.76);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.quantidade-campo input {
+  min-height: 44px;
+  border: 1px solid rgba(31, 31, 31, 0.18);
+  padding: 0 12px;
+  font: inherit;
+}
+
+.pedido-resumo {
+  display: grid;
+  gap: 14px;
+  margin: 22px 0 24px;
+  text-align: left;
+}
+
+.pedido-resumo div {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  border-bottom: 1px solid rgba(174, 135, 70, 0.24);
+  padding-bottom: 10px;
+}
+
+.pedido-resumo span {
+  color: rgba(31, 31, 31, 0.62);
+}
+
+.pedido-resumo strong {
+  text-align: right;
 }
 
 .botao-principal {
@@ -118,12 +168,17 @@
   cursor: pointer;
 }
 
-.observacao {
+.botao-principal:hover {
+  background: #98743a;
+}
+
+.pedido-observacao {
   border-top: 1px solid rgba(174, 135, 70, 0.35);
   margin-top: 22px;
   padding-top: 18px;
   font-size: 14px;
   line-height: 1.55;
+  color: rgba(31, 31, 31, 0.68);
 }
 
 .estado-pagina {
@@ -132,15 +187,15 @@
 }
 
 @media (max-width: 820px) {
-  .pagina-leitura {
+  .pagina-banho {
     padding-top: 54px;
   }
 
-  .leitura-grid {
+  .banho-grid {
     grid-template-columns: 1fr;
   }
 
-  .leitura-card {
+  .banho-card-detalhe {
     padding: 26px 22px;
   }
 }
