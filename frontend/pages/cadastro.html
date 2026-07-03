@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro | Manifestar Tarot</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/header.css">
+  <link rel="stylesheet" href="../css/footer.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon_io/favicon-16x16.png">
+  <link rel="shortcut icon" href="../assets/favicon_io/favicon.ico">
+  <link rel="manifest" href="../assets/favicon_io/site.webmanifest"></head>
+<body>
+  <div id="header"></div>
+
+  <main class="pagina-auth">
+    <section class="auth-container">
+      <div class="auth-intro">
+        <p class="section-kicker">Cadastro</p>
+        <h1>Crie sua conta</h1>
+        <p>
+          Cadastre seus dados para acompanhar pedidos, agendamentos e futuras
+          comunicações do Manifestar Tarot.
+        </p>
+      </div>
+
+      <div class="auth-card">
+        <h2>Dados de acesso</h2>
+        <form class="auth-form" id="cadastro-form">
+          <label>
+            Nome completo
+            <input type="text" name="nome" autocomplete="name" required>
+          </label>
+
+          <label>
+            WhatsApp
+            <input type="tel" name="telefone" autocomplete="tel" required>
+          </label>
+
+          <label>
+            Email
+            <input type="email" name="email" autocomplete="email" required>
+          </label>
+
+          <label>
+            Senha
+            <input type="password" name="senha" autocomplete="new-password" minlength="6" required>
+          </label>
+
+          <label>
+            Confirmar senha
+            <input type="password" name="confirmarSenha" autocomplete="new-password" minlength="6" required>
+          </label>
+
+          <label class="auth-consentimento">
+            <input type="checkbox" name="consentimento" required>
+            <span>
+              Li e aceito os
+              <a href="./termos.html" target="_blank" rel="noopener noreferrer">Termos de Uso e Política de Privacidade</a>.
+              Estou ciente de que, ao informar meu telefone, poderei receber
+              mensagens pelo WhatsApp relacionadas ao meu cadastro, pedidos,
+              agendamentos, lembretes e atendimento.
+            </span>
+          </label>
+
+          <button class="auth-btn" type="submit">Criar cadastro</button>
+        </form>
+
+        <p id="cadastro-mensagem" class="auth-mensagem"></p>
+
+        <p class="auth-link">
+          Já tenho cadastro.
+          <a href="./login.html">Entrar</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/components.js"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script src="../js/auth-client.js"></script>
+  <script src="../js/cadastro.js"></script>
+</body>
+</html>

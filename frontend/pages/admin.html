@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Banhos | Manifestar Tarot</title>
+  <title>Admin | Manifestar Tarot</title>
   <link rel="stylesheet" href="../css/global.css">
   <link rel="stylesheet" href="../css/header.css">
   <link rel="stylesheet" href="../css/footer.css">
-  <link rel="stylesheet" href="../css/banhos.css">
+  <link rel="stylesheet" href="../css/auth.css">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon_io/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon_io/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon_io/favicon-16x16.png">
@@ -16,25 +16,32 @@
 <body>
   <div id="header"></div>
 
-  <main class="pagina-banhos">
-    <section class="banhos-intro">
-      <p class="section-kicker">Banhos energéticos</p>
-      <h1>Cuidado energético para o seu momento</h1>
-      <p>
-        Preparos espirituais feitos com ervas, flores e elementos simbólicos
-        para limpeza, fortalecimento, amor próprio e renovação.
-      </p>
-    </section>
+  <main class="pagina-auth">
+    <section class="auth-container">
+      <div class="auth-intro">
+        <p class="section-kicker">Admin</p>
+        <h1>Painel da Paola</h1>
+        <p>
+          Area reservada para organizar publicacoes, cupons e historico de
+          atendimentos do Manifestar Tarot.
+        </p>
+      </div>
 
-    <section class="banhos-lista" aria-label="Lista de banhos energéticos">
-      <div id="lista-banhos" class="banhos-grid"></div>
+      <div class="auth-card">
+        <h2>Controle</h2>
+        <div id="admin-conteudo">
+          <p class="auth-mensagem">Verificando acesso...</p>
+        </div>
+      </div>
     </section>
   </main>
 
   <div id="footer"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/components.js"></script>
-  <script src="../js/banhos-data.js"></script>
-  <script src="../js/banhos.js"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script src="../js/auth-client.js"></script>
+  <script src="../js/admin.js"></script>
 </body>
 </html>

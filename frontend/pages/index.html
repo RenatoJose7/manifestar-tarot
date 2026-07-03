@@ -5,9 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manifestar Tarot</title>
   <link rel="preload" href="../assets/img/imgHero.png" as="image">
+  <link rel="preload" href="../assets/img/imgHeroMobile.png" as="image" media="(max-width: 900px)">
   <link rel="stylesheet" href="../css/home.css">
   <link rel="stylesheet" href="../css/global.css">
-</head>
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon_io/favicon-16x16.png">
+  <link rel="shortcut icon" href="../assets/favicon_io/favicon.ico">
+  <link rel="manifest" href="../assets/favicon_io/site.webmanifest"></head>
 <body>
 
   <header class="header">
@@ -27,13 +32,13 @@
 
     <nav class="menu" id="menu-principal">
       <a href="./index.html">Início</a>
-      <a href="#sobre">Sobre mim</a>
       <a href="./leituras.html">Leituras</a>
       <a href="./banhos.html">Banhos</a>
-      <a href="./contato.html">Contatos</a>
+      <a href="./contato.html">Contato</a>
+      <a href="./login.html" data-login-link>Login</a>
+      <a href="./cadastro.html" data-register-link>Cadastro</a>
     </nav>
 
-    <button class="header-btn" type="button" onclick="window.location.href='./leituras.html'">Ver produtos</button>
   </header>
 
   <main>
@@ -154,7 +159,11 @@
   </main>
 
   <div id="footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="../js/footer.js"></script>
+<script src="../js/supabase-config.js"></script>
+<script src="../js/auth-client.js"></script>
+<script src="../js/header-session.js"></script>
 <script>
   const menuToggle = document.querySelector(".menu-toggle");
   const menu = document.querySelector("#menu-principal");

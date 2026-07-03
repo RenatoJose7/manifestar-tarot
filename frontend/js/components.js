@@ -17,7 +17,81 @@ async function carregarComponente(alvoId, caminho, seletor) {
   }
 }
 
-function ajustarLinksDoHeader() {
+function carregarScriptGlobal(src, id) {
+  if (id && document.getElementById(id)) {
+    return Promise.resolve()
+  }
+
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script")
+    script.src = src
+    script.defer = true
+
+    if (id) {
+      script.id = id
+    }
+
+    script.addEventListener("load", resolve)
+    script.addEventListener("error", reject)
+    document.head.appendChild(script)
+  })
+}
+
+async function prepararSupabaseParaHeader() {
+  try {
+    if (!window.supabase?.createClient) {
+      await carregarScriptGlobal("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2", "supabase-js-client")
+    }
+
+    if (!window.manifestarSupabaseConfig && typeof SUPABASE_URL === "undefined") {
+      await carregarScriptGlobal("../js/supabase-config.js", "manifestar-supabase-config")
+    }
+
+    if (typeof obterPerfilAtual !== "function") {
+      await carregarScriptGlobal("../js/auth-client.js", "manifestar-auth-client")
+    }
+
+    return typeof obterPerfilAtual === "function"
+  } catch (erro) {
+    return false
+  }
+}
+
+async function atualizarHeaderAuth(header) {
+  const loginLink = header.querySelector("[data-login-link]")
+  const registerLink = header.querySelector("[data-register-link]")
+
+  if (!loginLink || !(await prepararSupabaseParaHeader())) {
+    return
+  }
+
+  const { perfil, usuario } = await obterPerfilAtual()
+
+  if (!usuario) {
+    loginLink.textContent = "Login"
+    loginLink.setAttribute("href", "./login.html")
+
+    if (registerLink) {
+      registerLink.textContent = "Cadastro"
+      registerLink.setAttribute("href", "./cadastro.html")
+    }
+
+    return
+  }
+
+  loginLink.textContent = "Minha conta"
+  loginLink.setAttribute("href", "./minha-conta.html")
+
+  if (registerLink && perfil?.role === "admin") {
+    registerLink.textContent = "Admin"
+    registerLink.setAttribute("href", "./admin.html")
+  } else if (registerLink) {
+    registerLink.textContent = "Egrégora"
+    registerLink.setAttribute("href", "./egregora.html")
+  }
+}
+
+async function ajustarLinksDoHeader() {
   const header = document.querySelector("#header .header")
 
   if (!header) {
@@ -25,21 +99,13 @@ function ajustarLinksDoHeader() {
   }
 
   const links = [...header.querySelectorAll("a")]
-  const destinos = ["./index.html", "./sobremim.html", "./leituras.html", "./banhos.html", "./contato.html"]
+  const destinos = ["./index.html", "./leituras.html", "./banhos.html", "./contato.html", "./login.html", "./cadastro.html"]
 
   links.forEach((link, index) => {
     if (destinos[index]) {
       link.setAttribute("href", destinos[index])
     }
   })
-
-  const botao = header.querySelector(".header-btn")
-
-  if (botao) {
-    botao.addEventListener("click", () => {
-      window.location.href = "./leituras.html"
-    })
-  }
 
   const logo = header.querySelector(".logo-area")
 
@@ -49,6 +115,8 @@ function ajustarLinksDoHeader() {
       window.location.href = "./index.html"
     })
   }
+
+  await atualizarHeaderAuth(header)
 
   const menuToggle = header.querySelector(".menu-toggle")
   const menu = header.querySelector("#menu-principal")
@@ -78,7 +146,7 @@ function ajustarLinksDoFooter() {
   }
 
   const linksNavegacao = [...footer.querySelectorAll(".linksRodape a")]
-  const destinos = ["./index.html", "./sobremim.html", "./leituras.html", "./banhos.html", "./contato.html"]
+  const destinos = ["./index.html", "./sobremim.html", "./leituras.html", "./banhos.html", "./contato.html", "./cadastro.html", "./termos.html"]
 
   linksNavegacao.forEach((link, index) => {
     if (destinos[index]) {
@@ -104,7 +172,7 @@ function carregarFontAwesome() {
 document.addEventListener("DOMContentLoaded", async () => {
   carregarFontAwesome()
   await carregarComponente("header", "../components/header.html", "header")
-  ajustarLinksDoHeader()
+  await ajustarLinksDoHeader()
   await carregarComponente("footer", "../components/footer.html", "footer")
   ajustarLinksDoFooter()
 })

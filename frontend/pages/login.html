@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Manifestar Tarot</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/header.css">
+  <link rel="stylesheet" href="../css/footer.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon_io/favicon-16x16.png">
+  <link rel="shortcut icon" href="../assets/favicon_io/favicon.ico">
+  <link rel="manifest" href="../assets/favicon_io/site.webmanifest"></head>
+<body>
+  <div id="header"></div>
+
+  <main class="pagina-auth">
+    <section class="auth-container">
+      <div class="auth-intro">
+        <p class="section-kicker">Entrar</p>
+        <h1>Acesse sua conta</h1>
+        <p>
+          Entre para acompanhar seu cadastro e preparar as próximas etapas de
+          pedidos e agendamentos.
+        </p>
+      </div>
+
+      <div class="auth-card">
+        <h2>Login</h2>
+        <form class="auth-form" id="login-form">
+          <label>
+            Email
+            <input type="email" name="email" autocomplete="email" required>
+          </label>
+
+          <label>
+            Senha
+            <input type="password" name="senha" autocomplete="current-password" required>
+          </label>
+
+          <button class="auth-btn" type="submit">Entrar</button>
+        </form>
+
+        <p id="login-mensagem" class="auth-mensagem"></p>
+
+        <p class="auth-link">
+          Ainda não tenho cadastro.
+          <a href="./cadastro.html">Criar conta</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/components.js"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script src="../js/auth-client.js"></script>
+  <script src="../js/login.js"></script>
+</body>
+</html>

@@ -70,9 +70,12 @@
       animation: pageFadeIn 0.42s ease both;
     }
 
+    .header {
+      animation: headerDropIn 0.52s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
     :where(
-      .header,
-      main > section:not(.hero),
+      main > *:not(.hero),
       .card-leitura,
       .card-leitura-interna,
       .leitura-card,
@@ -81,9 +84,25 @@
       .formato-card,
       .sessao-card,
       .pagamento-placeholder,
+      .auth-intro,
+      .auth-card,
+      .termos-conteudo,
+      .admin-lista,
       .rodape
     ) {
-      animation: softRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation: softRise 0.68s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    main > *:nth-child(2) {
+      animation-delay: 0.06s;
+    }
+
+    main > *:nth-child(3) {
+      animation-delay: 0.1s;
+    }
+
+    main > *:nth-child(4) {
+      animation-delay: 0.14s;
     }
 
     :where(.card-leitura, .card-leitura-interna, .formato-card, .sessao-card):nth-child(2) {
@@ -124,6 +143,18 @@
     from {
       opacity: 0;
       transform: translateY(18px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes headerDropIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
     }
 
     to {
