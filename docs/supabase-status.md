@@ -45,6 +45,51 @@ No issues found
 1. Testar cadastro/login/minha conta com um usuario comum.
 2. Seguir para a Fase 3: blog privado com previa publica.
 
+## Fase 3 iniciada
+
+Implementado localmente:
+
+- migration `20260706215334_blog_posts.sql` com tabela `public.blog_posts`;
+- bucket `blog-covers` para capas do blog;
+- RLS para previa publica, leitura completa autenticada e escrita apenas por admin;
+- pagina `egregora.html` com listagem de posts;
+- pagina `post.html` para leitura completa;
+- painel `admin.html` com formulario para publicar post e preview de capa.
+
+Aplicado manualmente:
+
+- O SQL da migration foi executado com sucesso no SQL Editor do Supabase em 06/07/2026.
+- Consulta REST publica em `blog_posts` respondeu `200 OK`, retornando lista vazia enquanto nao ha posts.
+
+Pendente:
+
+- Publicar o primeiro post pela area admin para validar upload da capa no bucket `blog-covers`.
+- A CLI continua sem conseguir aplicar migrations por `npx supabase db push --linked` porque retorna `403` e pede `SUPABASE_DB_PASSWORD`; enquanto isso, novas migrations podem ser aplicadas pelo SQL Editor.
+
+## Comentarios da Egregora
+
+Implementado localmente:
+
+- migration `20260707005642_post_comments.sql` com tabela `public.post_comments`;
+- RLS para leitura e envio apenas por usuarios autenticados;
+- exclusao permitida para o autor do comentario ou para admin;
+- layout do post com conteudo principal, posts recentes na lateral, curtidas e area de comentarios.
+
+## Curtidas da Egregora
+
+Implementado localmente:
+
+- migration `20260707010649_post_likes.sql` com tabela `public.post_likes`;
+- uma curtida por usuario em cada post;
+- contador publico de curtidas;
+- botao de curtir/descurtir para usuarios logados;
+- RLS para leitura publica em posts publicados e escrita apenas pelo proprio usuario autenticado.
+
+Pendente:
+
+- Executar `supabase/migrations/20260707005642_post_comments.sql` no SQL Editor do Supabase para ativar comentarios no banco remoto.
+- Executar `supabase/migrations/20260707010649_post_likes.sql` no SQL Editor do Supabase para ativar curtidas no banco remoto.
+
 ## Fase 2 iniciada
 
 Implementado no frontend:

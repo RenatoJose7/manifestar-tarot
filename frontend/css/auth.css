@@ -292,15 +292,24 @@
   gap: 14px;
 }
 
-.admin-lista button {
+.admin-lista button,
+.admin-lista a {
   width: 100%;
   min-height: 72px;
+  display: block;
   border: 1px solid rgba(174, 135, 70, 0.42);
   background: #fff;
   color: var(--preto);
   text-align: left;
+  text-decoration: none;
   padding: 16px 18px;
   border-radius: 2px;
+}
+
+.admin-lista a:hover {
+  border-color: var(--dourado);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px rgba(31, 31, 31, 0.06);
 }
 
 .admin-lista button:disabled {
