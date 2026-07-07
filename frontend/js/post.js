@@ -1,6 +1,7 @@
 const blogPost = document.getElementById("blog-post")
-const TAMANHO_MAXIMO_CAPA_POST = 2 * 1024 * 1024
-const TIPOS_CAPA_POST_PERMITIDOS = ["image/jpeg", "image/png", "image/webp"]
+const TAMANHO_MAXIMO_CAPA_POST = 12 * 1024 * 1024
+const LARGURA_MAXIMA_CAPA_POST = 1800
+const QUALIDADE_CAPA_POST = 0.86
 
 let postAtual = null
 let contextoAtual = null
@@ -37,15 +38,68 @@ function validarArquivoCapaPost(arquivo) {
     return ""
   }
 
-  if (!TIPOS_CAPA_POST_PERMITIDOS.includes(arquivo.type)) {
-    return "Use uma imagem JPG, PNG ou WEBP."
+  const nome = arquivo.name || ""
+  const extensaoImagem = /\.(jpe?g|png|webp|gif|heic|heif)$/i.test(nome)
+
+  if (!arquivo.type.startsWith("image/") && !extensaoImagem) {
+    return "Use um arquivo de imagem."
   }
 
   if (arquivo.size > TAMANHO_MAXIMO_CAPA_POST) {
-    return "A capa precisa ter no máximo 2MB."
+    return "A capa precisa ter no máximo 12MB."
   }
 
   return ""
+}
+
+function carregarImagemLocalPost(arquivo) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(arquivo)
+    const imagem = new Image()
+
+    imagem.onload = () => {
+      URL.revokeObjectURL(url)
+      resolve(imagem)
+    }
+
+    imagem.onerror = () => {
+      URL.revokeObjectURL(url)
+      reject(new Error("Não foi possível carregar a imagem escolhida."))
+    }
+
+    imagem.src = url
+  })
+}
+
+async function prepararImagemCapaPost(arquivo) {
+  const imagem = await carregarImagemLocalPost(arquivo)
+  const escala = Math.min(1, LARGURA_MAXIMA_CAPA_POST / imagem.naturalWidth)
+  const largura = Math.round(imagem.naturalWidth * escala)
+  const altura = Math.round(imagem.naturalHeight * escala)
+  const canvas = document.createElement("canvas")
+
+  canvas.width = largura
+  canvas.height = altura
+  canvas.getContext("2d").drawImage(imagem, 0, 0, largura, altura)
+
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => {
+        if (!blob) {
+          reject(new Error("Não foi possível preparar a imagem."))
+          return
+        }
+
+        resolve(
+          new File([blob], `${postAtual?.slug || "capa"}-${Date.now().toString(36)}.jpg`, {
+            type: "image/jpeg"
+          })
+        )
+      },
+      "image/jpeg",
+      QUALIDADE_CAPA_POST
+    )
+  })
 }
 
 function renderizarMenuAdmin() {
@@ -262,7 +316,7 @@ function renderizarFormularioEdicao() {
 
         <label>
           Trocar capa
-          <input id="blog-edicao-cover" type="file" name="cover" accept="image/png,image/jpeg,image/webp">
+          <input id="blog-edicao-cover" type="file" name="cover" accept="image/*">
         </label>
 
         <div class="blog-cover-preview" id="blog-edicao-preview">
@@ -354,13 +408,25 @@ async function salvarEdicao(evento) {
   }
 
   if (cover && cover.size) {
-    const extensao = cover.name.split(".").pop()?.toLowerCase() || "jpg"
-    const coverPath = `posts/${postAtual.slug}-${Date.now().toString(36)}.${extensao}`
+    let capaPreparada
+
+    definirMensagemAuth(mensagem, "Preparando imagem...")
+
+    try {
+      capaPreparada = await prepararImagemCapaPost(cover)
+    } catch (erro) {
+      botao.disabled = false
+      botao.textContent = "Salvar alterações"
+      definirMensagemAuth(mensagem, erro.message, "erro")
+      return
+    }
+
+    const coverPath = `posts/${postAtual.slug}-${Date.now().toString(36)}.jpg`
     const { error: uploadError } = await contextoAtual.supabase.storage
       .from("blog-covers")
-      .upload(coverPath, cover, {
+      .upload(coverPath, capaPreparada, {
         cacheControl: "3600",
-        contentType: cover.type,
+        contentType: capaPreparada.type,
         upsert: false
       })
 
