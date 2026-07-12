@@ -1,5 +1,6 @@
 const adminPostsConteudo = document.getElementById("admin-posts-conteudo")
 const TAMANHO_MAXIMO_CAPA = 12 * 1024 * 1024
+const TAMANHO_MAXIMO_UPLOAD = 1.8 * 1024 * 1024
 const LARGURA_MAXIMA_CAPA = 1800
 const QUALIDADE_CAPA = 0.86
 
@@ -65,33 +66,146 @@ function carregarImagemLocal(arquivo) {
 
 async function prepararImagemCapa(arquivo) {
   const imagem = await carregarImagemLocal(arquivo)
-  const escala = Math.min(1, LARGURA_MAXIMA_CAPA / imagem.naturalWidth)
-  const largura = Math.round(imagem.naturalWidth * escala)
-  const altura = Math.round(imagem.naturalHeight * escala)
-  const canvas = document.createElement("canvas")
+  const larguras = [LARGURA_MAXIMA_CAPA, 1500, 1200, 960, 760]
+  const qualidades = [QUALIDADE_CAPA, 0.78, 0.68, 0.58]
 
-  canvas.width = largura
-  canvas.height = altura
-  canvas.getContext("2d").drawImage(imagem, 0, 0, largura, altura)
+  for (const larguraMaxima of larguras) {
+    const escala = Math.min(1, larguraMaxima / imagem.naturalWidth)
+    const largura = Math.round(imagem.naturalWidth * escala)
+    const altura = Math.round(imagem.naturalHeight * escala)
+    const canvas = document.createElement("canvas")
 
-  return new Promise((resolve, reject) => {
-    canvas.toBlob(
-      (blob) => {
-        if (!blob) {
-          reject(new Error("Não foi possível preparar a imagem."))
-          return
-        }
+    canvas.width = largura
+    canvas.height = altura
+    canvas.getContext("2d").drawImage(imagem, 0, 0, largura, altura)
 
-        resolve(
-          new File([blob], `${gerarSlug(arquivo.name.replace(/\.[^.]+$/, "")) || "capa"}.jpg`, {
-            type: "image/jpeg"
-          })
+    for (const qualidade of qualidades) {
+      const arquivoPreparado = await new Promise((resolve, reject) => {
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              reject(new Error("Não foi possível preparar a imagem."))
+              return
+            }
+
+            resolve(
+              new File([blob], `${gerarSlug(arquivo.name.replace(/\.[^.]+$/, "")) || "capa"}.jpg`, {
+                type: "image/jpeg"
+              })
+            )
+          },
+          "image/jpeg",
+          qualidade
         )
-      },
-      "image/jpeg",
-      QUALIDADE_CAPA
-    )
+      })
+
+      if (arquivoPreparado.size <= TAMANHO_MAXIMO_UPLOAD) {
+        return arquivoPreparado
+      }
+    }
+  }
+
+  throw new Error("Não foi possível preparar a imagem.")
+}
+
+function gerarCaminhoImagem(pasta, nomeBase = "imagem") {
+  const nome = gerarSlug(nomeBase) || "imagem"
+  const sufixo = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
+
+  return `${pasta}/${nome}-${sufixo}.jpg`
+}
+
+async function enviarImagemBlog(supabase, arquivo, pasta = "media") {
+  const imagem = await prepararImagemCapa(arquivo)
+  const caminho = gerarCaminhoImagem(pasta, arquivo.name)
+  const { error } = await supabase.storage
+    .from("blog-covers")
+    .upload(caminho, imagem, {
+      cacheControl: "3600",
+      contentType: imagem.type,
+      upsert: false
+    })
+
+  if (error) {
+    throw error
+  }
+
+  const { data } = supabase.storage.from("blog-covers").getPublicUrl(caminho)
+
+  return { url: data.publicUrl, caminho }
+}
+
+function pareceHtml(conteudo) {
+  return /<\/?[a-z][\s\S]*>/i.test(String(conteudo || ""))
+}
+
+function sanitizarHtmlBlog(html) {
+  const permitido = new Set(["A", "B", "BLOCKQUOTE", "BR", "EM", "H2", "H3", "I", "IMG", "LI", "OL", "P", "STRONG", "UL"])
+  const doc = new DOMParser().parseFromString(`<div>${html}</div>`, "text/html")
+  const raiz = doc.body.firstElementChild
+
+  ;[...raiz.querySelectorAll("*")].forEach((elemento) => {
+    if (!permitido.has(elemento.tagName)) {
+      elemento.replaceWith(...elemento.childNodes)
+      return
+    }
+
+    if (elemento.tagName === "A") {
+      const href = elemento.getAttribute("href") || ""
+
+      ;[...elemento.attributes].forEach((atributo) => elemento.removeAttribute(atributo.name))
+
+      if (/^https?:\/\//i.test(href) || /^mailto:/i.test(href)) {
+        elemento.setAttribute("href", href)
+        elemento.setAttribute("target", "_blank")
+        elemento.setAttribute("rel", "noopener noreferrer")
+      }
+
+      return
+    }
+
+    if (elemento.tagName === "IMG") {
+      const src = elemento.getAttribute("src") || ""
+      const alt = elemento.getAttribute("alt") || ""
+
+      ;[...elemento.attributes].forEach((atributo) => elemento.removeAttribute(atributo.name))
+
+      if (/^https?:\/\//i.test(src)) {
+        elemento.setAttribute("src", src)
+        elemento.setAttribute("alt", alt)
+        elemento.setAttribute("loading", "lazy")
+      }
+
+      return
+    }
+
+    ;[...elemento.attributes].forEach((atributo) => elemento.removeAttribute(atributo.name))
   })
+
+  return raiz.innerHTML
+}
+
+function formatarConteudoBlog(conteudo) {
+  if (pareceHtml(conteudo)) {
+    return sanitizarHtmlBlog(conteudo)
+  }
+
+  return String(conteudo || "")
+    .split(/\n{2,}/)
+    .map((paragrafo) => paragrafo.trim())
+    .filter(Boolean)
+    .map((paragrafo) => `<p>${escaparHtml(paragrafo).replace(/\n/g, "<br>")}</p>`)
+    .join("")
+}
+
+function obterConteudoEditor() {
+  const editor = window.tinymce?.get("blog-content-editor")
+
+  if (editor) {
+    return editor.getContent().trim()
+  }
+
+  return String(document.getElementById("blog-content-editor")?.value || "").trim()
 }
 
 function renderizarFormularioPost() {
@@ -119,10 +233,13 @@ function renderizarFormularioPost() {
 
         <label>
           Texto
-          <textarea name="content" rows="10" required></textarea>
+          <textarea id="blog-content-editor" name="content" rows="12" required></textarea>
         </label>
 
-        <button class="auth-btn" type="submit">Publicar post</button>
+        <div class="blog-edicao-acoes">
+          <button class="auth-admin-link" type="button" data-preview-post>Visualizar</button>
+          <button class="auth-btn" type="submit">Publicar post</button>
+        </div>
         <p id="blog-admin-mensagem" class="auth-mensagem"></p>
       </form>
 
@@ -133,7 +250,51 @@ function renderizarFormularioPost() {
         </div>
       </aside>
     </div>
+
+    <section class="blog-preview-post" id="blog-preview-post" hidden></section>
   `
+}
+
+async function configurarEditorTexto(supabase) {
+  if (!window.tinymce) {
+    return
+  }
+
+  const editorAnterior = window.tinymce.get("blog-content-editor")
+
+  if (editorAnterior) {
+    editorAnterior.remove()
+  }
+
+  await window.tinymce.init({
+    selector: "#blog-content-editor",
+    height: 440,
+    menubar: false,
+    branding: false,
+    promotion: false,
+    plugins: "autoresize image link lists preview",
+    toolbar: "undo redo | blocks | bold italic | alignleft aligncenter alignright | bullist numlist | link image | preview",
+    block_formats: "Parágrafo=p;Título=h2;Subtítulo=h3;Citação=blockquote",
+    images_file_types: "jpg,jpeg,png,webp,gif,heic,heif",
+    automatic_uploads: true,
+    paste_data_images: true,
+    images_upload_handler: async (blobInfo, progress) => {
+      progress(20)
+      const arquivo = new File([blobInfo.blob()], blobInfo.filename() || "imagem.jpg", {
+        type: blobInfo.blob().type || "image/jpeg"
+      })
+      const { url } = await enviarImagemBlog(supabase, arquivo, "media")
+
+      progress(100)
+      return url
+    },
+    content_style: `
+      body { color: #1f1f1f; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.75; }
+      h2, h3 { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; text-transform: uppercase; }
+      img { max-width: 100%; height: auto; display: block; margin: 24px auto; }
+      blockquote { border-left: 3px solid #ae8746; margin-left: 0; padding-left: 18px; color: #555; }
+    `
+  })
 }
 
 function configurarPreviewCapa() {
@@ -159,6 +320,53 @@ function configurarPreviewCapa() {
     const url = URL.createObjectURL(arquivo)
     preview.innerHTML = `<img src="${url}" alt="">`
   })
+}
+
+function obterDadosFormularioPost() {
+  const form = document.getElementById("blog-post-form")
+  const dados = new FormData(form)
+
+  return {
+    title: String(dados.get("title") || "").trim(),
+    excerpt: String(dados.get("excerpt") || "").trim(),
+    content: obterConteudoEditor(),
+    cover: dados.get("cover")
+  }
+}
+
+function renderizarPreviewPost() {
+  const preview = document.getElementById("blog-preview-post")
+  const { title, excerpt, content, cover } = obterDadosFormularioPost()
+
+  if (!preview) {
+    return
+  }
+
+  if (!title && !excerpt && !content && (!cover || !cover.size)) {
+    preview.hidden = true
+    preview.innerHTML = ""
+    return
+  }
+
+  const capa = cover && cover.size ? URL.createObjectURL(cover) : ""
+
+  preview.hidden = false
+  preview.innerHTML = `
+    <div class="blog-post-topo">
+      <p class="section-kicker">Prévia</p>
+      <h1>${escaparHtml(title || "Título da publicação")}</h1>
+      <p class="blog-post-resumo">${escaparHtml(excerpt || "Prévia da publicação")}</p>
+    </div>
+    ${capa ? `<div class="blog-post-cover blog-post-cover-preview"><img src="${capa}" alt=""></div>` : ""}
+    <div class="blog-post-corpo">
+      ${content ? formatarConteudoBlog(content) : "<p>O texto da publicação aparecerá aqui.</p>"}
+    </div>
+  `
+  preview.scrollIntoView({ behavior: "smooth", block: "start" })
+}
+
+function configurarPreviewPost() {
+  document.querySelector("[data-preview-post]")?.addEventListener("click", renderizarPreviewPost)
 }
 
 async function carregarPostsAdmin(supabase) {
@@ -205,11 +413,7 @@ async function enviarPost(evento, supabase, usuario) {
   const form = evento.currentTarget
   const mensagem = document.getElementById("blog-admin-mensagem")
   const botao = form.querySelector("button[type='submit']")
-  const dados = new FormData(form)
-  const title = String(dados.get("title") || "").trim()
-  const excerpt = String(dados.get("excerpt") || "").trim()
-  const content = String(dados.get("content") || "").trim()
-  const cover = dados.get("cover")
+  const { title, excerpt, content, cover } = obterDadosFormularioPost()
   const erroCapa = validarArquivoCapa(cover)
 
   if (!title || !excerpt || !content) {
@@ -282,6 +486,9 @@ async function enviarPost(evento, supabase, usuario) {
   }
 
   form.reset()
+  window.tinymce?.get("blog-content-editor")?.setContent("")
+  document.getElementById("blog-preview-post").hidden = true
+  document.getElementById("blog-preview-post").innerHTML = ""
   document.getElementById("blog-cover-preview").innerHTML = "<span>Prévia da capa</span>"
   definirMensagemAuth(mensagem, "Post publicado com sucesso.", "sucesso")
   await carregarPostsAdmin(supabase)
@@ -307,6 +514,8 @@ async function carregarAdminPosts() {
 
   renderizarFormularioPost()
   configurarPreviewCapa()
+  await configurarEditorTexto(supabase)
+  configurarPreviewPost()
   document
     .getElementById("blog-post-form")
     ?.addEventListener("submit", (evento) => enviarPost(evento, supabase, usuario))

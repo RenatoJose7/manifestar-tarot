@@ -175,7 +175,7 @@
       menuToggle.setAttribute("aria-expanded", String(isOpen));
     });
 
-    menu.querySelectorAll("a").forEach((link) => {
+    menu.querySelectorAll("a, button").forEach((link) => {
       link.addEventListener("click", () => {
         menu.classList.remove("is-open");
         menuToggle.classList.remove("is-open");

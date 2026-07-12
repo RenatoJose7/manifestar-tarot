@@ -57,18 +57,60 @@ async function prepararSupabaseParaHeader() {
   }
 }
 
+function obterNomeHeader(perfil, usuario) {
+  return perfil?.nome || usuario?.email?.split("@")[0] || "cliente"
+}
+
+function deveOcultarSaudacaoHeader() {
+  const pagina = window.location.pathname.split("/").pop()
+  const paginasOcultas = new Set([
+    "formulario.html",
+    "consentimento.html",
+    "checkout.html",
+    "pagamento.html",
+    "confirmacao.html"
+  ])
+
+  return paginasOcultas.has(pagina)
+}
+
+function removerElementosSessaoHeader(header) {
+  header.querySelector("[data-header-user]")?.remove()
+  header.querySelector("[data-header-greeting]")?.remove()
+  header.querySelector("[data-logout-link]")?.remove()
+  header.querySelector("[data-mobile-logout-link]")?.remove()
+}
+
+function configurarLogoutHeader(botao, supabase) {
+  if (!botao || botao.dataset.logoutReady === "true") {
+    return
+  }
+
+  botao.dataset.logoutReady = "true"
+  botao?.addEventListener("click", async () => {
+    botao.disabled = true
+    await supabase?.auth?.signOut()
+    window.location.href = "./index.html"
+  })
+}
+
 async function atualizarHeaderAuth(header) {
   const loginLink = header.querySelector("[data-login-link]")
   const registerLink = header.querySelector("[data-register-link]")
   let adminEgregoraLink = header.querySelector("[data-admin-egregora-link]")
+  let usuarioBox = header.querySelector("[data-header-user]")
+  let saudacaoHeader = header.querySelector("[data-header-greeting]")
+  let logoutBotao = header.querySelector("[data-logout-link]")
+  let logoutMobileBotao = header.querySelector("[data-mobile-logout-link]")
 
   if (!loginLink || !(await prepararSupabaseParaHeader())) {
     return
   }
 
-  const { perfil, usuario } = await obterPerfilAtual()
+  const { perfil, usuario, supabase } = await obterPerfilAtual()
 
   if (!usuario) {
+    removerElementosSessaoHeader(header)
     adminEgregoraLink?.remove()
     loginLink.textContent = "Login"
     loginLink.setAttribute("href", "./login.html")
@@ -83,6 +125,65 @@ async function atualizarHeaderAuth(header) {
 
   loginLink.textContent = "Minha conta"
   loginLink.setAttribute("href", "./minha-conta.html")
+  const nomeHeader = obterNomeHeader(perfil, usuario)
+  const emailHeader = usuario.email || ""
+
+  if (!usuarioBox) {
+    usuarioBox = document.createElement("div")
+    usuarioBox.className = "menu-user-status"
+    usuarioBox.setAttribute("data-header-user", "")
+    header.querySelector("#menu-principal")?.prepend(usuarioBox)
+  }
+
+  usuarioBox.innerHTML = `
+    <strong>Olá, ${escaparHtml(obterNomeHeader(perfil, usuario))}</strong>
+    <span>${escaparHtml(usuario.email || "")}</span>
+  `
+
+  usuarioBox.innerHTML = `
+    <strong>Olá, ${escaparHtml(nomeHeader)}</strong>
+    <span>${escaparHtml(emailHeader)}</span>
+  `
+
+  if (deveOcultarSaudacaoHeader()) {
+    usuarioBox?.remove()
+    saudacaoHeader?.remove()
+  } else {
+    if (!saudacaoHeader) {
+      saudacaoHeader = document.createElement("div")
+      saudacaoHeader.className = "header-user-greeting"
+      saudacaoHeader.setAttribute("data-header-greeting", "")
+      header.querySelector("#menu-principal")?.before(saudacaoHeader)
+    }
+
+    saudacaoHeader.innerHTML = `
+      <strong>Olá, ${escaparHtml(nomeHeader)}</strong>
+      <span>${escaparHtml(emailHeader)}</span>
+    `
+  }
+
+  if (!logoutBotao) {
+    logoutBotao = document.createElement("button")
+    logoutBotao.className = "menu-logout"
+    logoutBotao.type = "button"
+    logoutBotao.setAttribute("data-logout-link", "")
+    logoutBotao.setAttribute("aria-label", "Sair da conta")
+    logoutBotao.innerHTML = `<i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i><span>Sair</span>`
+    registerLink?.after(logoutBotao)
+  }
+
+  if (!logoutMobileBotao) {
+    logoutMobileBotao = document.createElement("button")
+    logoutMobileBotao.className = "header-mobile-logout"
+    logoutMobileBotao.type = "button"
+    logoutMobileBotao.setAttribute("data-mobile-logout-link", "")
+    logoutMobileBotao.setAttribute("aria-label", "Sair da conta")
+    logoutMobileBotao.innerHTML = `<i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>`
+    header.querySelector(".menu-toggle")?.before(logoutMobileBotao)
+  }
+
+  configurarLogoutHeader(logoutBotao, supabase)
+  configurarLogoutHeader(logoutMobileBotao, supabase)
 
   if (registerLink && perfil?.role === "admin") {
     if (!adminEgregoraLink) {
@@ -139,7 +240,7 @@ async function ajustarLinksDoHeader() {
       menuToggle.setAttribute("aria-expanded", String(isOpen))
     })
 
-    menu.querySelectorAll("a").forEach((link) => {
+    menu.querySelectorAll("a, button").forEach((link) => {
       link.addEventListener("click", () => {
         menu.classList.remove("is-open")
         menuToggle.classList.remove("is-open")

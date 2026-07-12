@@ -110,6 +110,71 @@
   white-space: normal;
 }
 
+.menu-user-status {
+  display: none;
+}
+
+.header-user-greeting {
+  position: absolute;
+  top: 50%;
+  left: clamp(240px, 22vw, 360px);
+  display: grid;
+  gap: 2px;
+  max-width: 220px;
+  color: var(--branco);
+  transform: translateY(-50%);
+}
+
+.header-user-greeting strong {
+  color: var(--dourado);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.header-user-greeting span {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 11px;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menu-logout {
+  width: 42px;
+  height: 42px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid rgba(174, 135, 70, 0.75);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--dourado);
+  cursor: pointer;
+  font: inherit;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.header-mobile-logout {
+  display: none;
+}
+
+.menu-logout span {
+  display: none;
+}
+
+.menu-logout:hover,
+.menu-logout:focus-visible {
+  background: rgba(174, 135, 70, 0.12);
+  color: var(--branco);
+  transform: translateY(-2px);
+}
+
+.menu-logout:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
 .menu a[data-login-link]::after,
 .menu a[data-register-link]::after {
   display: none;
@@ -247,6 +312,64 @@
   .menu a[data-register-link] {
     width: min(220px, 100%);
     justify-self: center;
+  }
+
+  .menu-user-status {
+    width: min(280px, 100%);
+    display: grid;
+    gap: 4px;
+    justify-self: center;
+    border: 1px solid rgba(174, 135, 70, 0.35);
+    background: rgba(174, 135, 70, 0.08);
+    color: var(--branco);
+    padding: 14px 16px;
+    text-align: center;
+  }
+
+  .menu-user-status strong {
+    color: var(--dourado);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .menu-user-status span {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 12px;
+    line-height: 1.35;
+    word-break: break-word;
+  }
+
+  .menu-logout {
+    display: none;
+  }
+
+  .menu-logout span {
+    display: inline;
+  }
+
+  .header-user-greeting {
+    display: none;
+  }
+
+  .header-mobile-logout {
+    width: 44px;
+    height: 40px;
+    display: inline-grid;
+    place-items: center;
+    position: fixed;
+    top: 18px;
+    right: 66px;
+    z-index: 30;
+    border: 1px solid rgba(174, 135, 70, 0.78);
+    background: rgba(31, 31, 31, 0.18);
+    color: var(--dourado);
+    cursor: pointer;
+  }
+
+  .header-mobile-logout:hover,
+  .header-mobile-logout:focus-visible {
+    background: rgba(174, 135, 70, 0.12);
+    color: var(--branco);
   }
 
   .menu-toggle {

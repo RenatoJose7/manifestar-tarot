@@ -1,5 +1,6 @@
 const blogPost = document.getElementById("blog-post")
 const TAMANHO_MAXIMO_CAPA_POST = 12 * 1024 * 1024
+const TAMANHO_MAXIMO_UPLOAD_POST = 1.8 * 1024 * 1024
 const LARGURA_MAXIMA_CAPA_POST = 1800
 const QUALIDADE_CAPA_POST = 0.86
 
@@ -24,7 +25,61 @@ function formatarDataBlog(data) {
   }).format(new Date(data))
 }
 
+function pareceHtml(conteudo) {
+  return /<\/?[a-z][\s\S]*>/i.test(String(conteudo || ""))
+}
+
+function sanitizarHtmlBlog(html) {
+  const permitido = new Set(["A", "B", "BLOCKQUOTE", "BR", "EM", "H2", "H3", "I", "IMG", "LI", "OL", "P", "STRONG", "UL"])
+  const doc = new DOMParser().parseFromString(`<div>${html}</div>`, "text/html")
+  const raiz = doc.body.firstElementChild
+
+  ;[...raiz.querySelectorAll("*")].forEach((elemento) => {
+    if (!permitido.has(elemento.tagName)) {
+      elemento.replaceWith(...elemento.childNodes)
+      return
+    }
+
+    if (elemento.tagName === "A") {
+      const href = elemento.getAttribute("href") || ""
+
+      ;[...elemento.attributes].forEach((atributo) => elemento.removeAttribute(atributo.name))
+
+      if (/^https?:\/\//i.test(href) || /^mailto:/i.test(href)) {
+        elemento.setAttribute("href", href)
+        elemento.setAttribute("target", "_blank")
+        elemento.setAttribute("rel", "noopener noreferrer")
+      }
+
+      return
+    }
+
+    if (elemento.tagName === "IMG") {
+      const src = elemento.getAttribute("src") || ""
+      const alt = elemento.getAttribute("alt") || ""
+
+      ;[...elemento.attributes].forEach((atributo) => elemento.removeAttribute(atributo.name))
+
+      if (/^https?:\/\//i.test(src)) {
+        elemento.setAttribute("src", src)
+        elemento.setAttribute("alt", alt)
+        elemento.setAttribute("loading", "lazy")
+      }
+
+      return
+    }
+
+    ;[...elemento.attributes].forEach((atributo) => elemento.removeAttribute(atributo.name))
+  })
+
+  return raiz.innerHTML
+}
+
 function formatarConteudoPost(conteudo) {
+  if (pareceHtml(conteudo)) {
+    return sanitizarHtmlBlog(conteudo)
+  }
+
   return String(conteudo || "")
     .split(/\n{2,}/)
     .map((paragrafo) => paragrafo.trim())
@@ -73,32 +128,130 @@ function carregarImagemLocalPost(arquivo) {
 
 async function prepararImagemCapaPost(arquivo) {
   const imagem = await carregarImagemLocalPost(arquivo)
-  const escala = Math.min(1, LARGURA_MAXIMA_CAPA_POST / imagem.naturalWidth)
-  const largura = Math.round(imagem.naturalWidth * escala)
-  const altura = Math.round(imagem.naturalHeight * escala)
-  const canvas = document.createElement("canvas")
+  const larguras = [LARGURA_MAXIMA_CAPA_POST, 1500, 1200, 960, 760]
+  const qualidades = [QUALIDADE_CAPA_POST, 0.78, 0.68, 0.58]
 
-  canvas.width = largura
-  canvas.height = altura
-  canvas.getContext("2d").drawImage(imagem, 0, 0, largura, altura)
+  for (const larguraMaxima of larguras) {
+    const escala = Math.min(1, larguraMaxima / imagem.naturalWidth)
+    const largura = Math.round(imagem.naturalWidth * escala)
+    const altura = Math.round(imagem.naturalHeight * escala)
+    const canvas = document.createElement("canvas")
 
-  return new Promise((resolve, reject) => {
-    canvas.toBlob(
-      (blob) => {
-        if (!blob) {
-          reject(new Error("Não foi possível preparar a imagem."))
-          return
-        }
+    canvas.width = largura
+    canvas.height = altura
+    canvas.getContext("2d").drawImage(imagem, 0, 0, largura, altura)
 
-        resolve(
-          new File([blob], `${postAtual?.slug || "capa"}-${Date.now().toString(36)}.jpg`, {
-            type: "image/jpeg"
-          })
+    for (const qualidade of qualidades) {
+      const arquivoPreparado = await new Promise((resolve, reject) => {
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              reject(new Error("Não foi possível preparar a imagem."))
+              return
+            }
+
+            resolve(
+              new File([blob], `${postAtual?.slug || "capa"}-${Date.now().toString(36)}.jpg`, {
+                type: "image/jpeg"
+              })
+            )
+          },
+          "image/jpeg",
+          qualidade
         )
-      },
-      "image/jpeg",
-      QUALIDADE_CAPA_POST
-    )
+      })
+
+      if (arquivoPreparado.size <= TAMANHO_MAXIMO_UPLOAD_POST) {
+        return arquivoPreparado
+      }
+    }
+  }
+
+  throw new Error("Não foi possível preparar a imagem.")
+}
+
+function gerarCaminhoImagemPost(pasta, nomeBase = "imagem") {
+  const nome = String(nomeBase || "imagem")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 72) || "imagem"
+  const sufixo = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
+
+  return `${pasta}/${nome}-${sufixo}.jpg`
+}
+
+async function enviarImagemBlogPost(arquivo, pasta = "media") {
+  const imagem = await prepararImagemCapaPost(arquivo)
+  const caminho = gerarCaminhoImagemPost(pasta, arquivo.name)
+  const { error } = await contextoAtual.supabase.storage
+    .from("blog-covers")
+    .upload(caminho, imagem, {
+      cacheControl: "3600",
+      contentType: imagem.type,
+      upsert: false
+    })
+
+  if (error) {
+    throw error
+  }
+
+  const { data } = contextoAtual.supabase.storage.from("blog-covers").getPublicUrl(caminho)
+
+  return data.publicUrl
+}
+
+function obterConteudoEditorEdicao() {
+  const editor = window.tinymce?.get("blog-edicao-content")
+
+  if (editor) {
+    return editor.getContent().trim()
+  }
+
+  return String(document.getElementById("blog-edicao-content")?.value || "").trim()
+}
+
+async function configurarEditorEdicao() {
+  if (!window.tinymce) {
+    return
+  }
+
+  const editorAnterior = window.tinymce.get("blog-edicao-content")
+
+  if (editorAnterior) {
+    editorAnterior.remove()
+  }
+
+  await window.tinymce.init({
+    selector: "#blog-edicao-content",
+    height: 440,
+    menubar: false,
+    branding: false,
+    promotion: false,
+    plugins: "autoresize image link lists preview",
+    toolbar: "undo redo | blocks | bold italic | alignleft aligncenter alignright | bullist numlist | link image | preview",
+    block_formats: "Parágrafo=p;Título=h2;Subtítulo=h3;Citação=blockquote",
+    images_file_types: "jpg,jpeg,png,webp,gif,heic,heif",
+    automatic_uploads: true,
+    paste_data_images: true,
+    images_upload_handler: async (blobInfo, progress) => {
+      progress(20)
+      const arquivo = new File([blobInfo.blob()], blobInfo.filename() || "imagem.jpg", {
+        type: blobInfo.blob().type || "image/jpeg"
+      })
+      const url = await enviarImagemBlogPost(arquivo, "media")
+
+      progress(100)
+      return url
+    },
+    content_style: `
+      body { color: #1f1f1f; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.75; }
+      h2, h3 { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; text-transform: uppercase; }
+      img { max-width: 100%; height: auto; display: block; margin: 24px auto; }
+      blockquote { border-left: 3px solid #ae8746; margin-left: 0; padding-left: 18px; color: #555; }
+    `
   })
 }
 
@@ -330,7 +483,7 @@ function renderizarFormularioEdicao() {
 
         <label>
           Texto
-          <textarea name="content" rows="10" required>${escaparHtml(postAtual.content)}</textarea>
+          <textarea id="blog-edicao-content" name="content" rows="10" required>${escaparHtml(postAtual.content)}</textarea>
         </label>
 
         <div class="blog-edicao-acoes">
@@ -343,6 +496,7 @@ function renderizarFormularioEdicao() {
   `
 
   configurarPreviewEdicao()
+  configurarEditorEdicao()
   blogPost.querySelector("[data-post-cancelar]")?.addEventListener("click", () => {
     carregarPost()
   })
@@ -382,7 +536,7 @@ async function salvarEdicao(evento) {
   const dados = new FormData(form)
   const title = String(dados.get("title") || "").trim()
   const excerpt = String(dados.get("excerpt") || "").trim()
-  const content = String(dados.get("content") || "").trim()
+  const content = obterConteudoEditorEdicao()
   const cover = dados.get("cover")
   const erroCapa = validarArquivoCapaPost(cover)
 
